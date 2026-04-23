@@ -77,7 +77,29 @@ body {
   background: var(--bg-secondary);
   border-color: var(--border-color);
   color: var(--text-primary);
-  box-shadow: var(--card-shadow);
+  box-shadow: var(--card-shadow);}
+
+.appointment-mode-btn {
+  min-width: 130px;
+  font-weight: 600;
+}
+
+.appointment-mode-btn.active {
+  background-color: var(--primary-blue);
+  border-color: var(--primary-blue);
+  color: #fff;
+}
+
+.appointment-form .form-control,
+.appointment-form .form-select {
+  border-radius: 0.9rem;
+}
+
+#modeHelp {
+  border-radius: 0.95rem;
+  background: #eef5ff;
+  color: #0c4da2;
+  border: 1px solid rgba(13, 71, 161, 0.12);
 }
 
 .btn-primary {
