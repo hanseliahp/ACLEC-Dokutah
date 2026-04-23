@@ -12,7 +12,10 @@ const {
   startChatSession,
   getMessages,
   sendMessage,
-  closeChatSession
+  closeChatSession,
+  getDemoChatSession,
+  getDemoMessages,
+  sendDemoMessage
 } = require('../controller/chatController');
 
 const { authenticate } = require('../middleware/auth');
@@ -34,6 +37,11 @@ router.post('/messages', sendMessage);
 
 // Close chat session
 router.put('/sessions/:session_id/close', closeChatSession);
+
+// Demo chat routes (no auth required)
+router.get('/demo/sessions', getDemoChatSession);
+router.get('/demo/messages', getDemoMessages);
+router.post('/demo/messages', sendDemoMessage);
 
 module.exports = router;
 

@@ -83,6 +83,20 @@
                     <!-- Chat sessions will be loaded here -->
                 </div>
                 <hr>
+                <h5>Chat Demo</h5>
+                <div class="doctor-card p-3 border rounded mb-2" onclick="startDemoChat()">
+                    <div class="d-flex align-items-center">
+                        <img src="https://via.placeholder.com/50x50?text=AI" 
+                             class="rounded-circle me-3" width="50" height="50" alt="Demo Doctor">
+                        <div>
+                            <h6 class="mb-0">Dr. Demo AI</h6>
+                            <small class="text-muted">Chat Demo - Tanpa Login</small>
+                            <br>
+                            <small class="text-success">Online 24/7</small>
+                        </div>
+                    </div>
+                </div>
+                <hr>
                 <h5>Mulai Chat Baru</h5>
                 <div id="doctor-list" class="doctor-list">
                     <!-- Doctors will be loaded here -->
@@ -90,8 +104,9 @@
             </div>
             <div class="col-md-8">
                 <div id="chat-area" class="chat-container border rounded" style="display: none;">
-                    <div class="p-3 bg-primary text-white">
+                    <div class="p-3 bg-primary text-white d-flex justify-content-between align-items-center">
                         <h5 id="chat-title">Chat dengan Dokter</h5>
+                        <small id="demo-badge" class="badge bg-warning text-dark" style="display: none;">DEMO MODE</small>
                     </div>
                     <div id="chat-messages" class="chat-messages">
                         <!-- Messages will be loaded here -->
@@ -122,17 +137,22 @@
         let currentSessionId = null;
         let supabase = null;
         let currentUser = null;
+        let isDemoMode = false;
 
         // Initialize Supabase client
         async function initSupabase() {
             if (typeof window.supabaseClient !== 'undefined') {
                 supabase = window.supabaseClient;
-                currentUser = await supabase.auth.getUser();
-                if (!currentUser.data.user) {
-                    // Redirect to login if not authenticated
-                    window.location.href = 'login.html';
-                    return;
+                try {
+                    currentUser = await supabase.auth.getUser();
+                    if (currentUser.data.user) {
+                        loadChatSessions();
+                    }
+                } catch (error) {
+                    // User not logged in, but that's ok for demo
+                    console.log('User not logged in, demo mode available');
                 }
+                loadDoctors();
             }
         }
 
@@ -147,6 +167,8 @@
 
         // Load chat sessions
         async function loadChatSessions() {
+            if (!currentUser?.data?.user) return; // Skip if not logged in
+
             try {
                 const response = await fetch('/api/chat/sessions', {
                     headers: getAuthHeaders()
@@ -171,6 +193,49 @@
             } catch (error) {
                 console.error('Error loading doctors:', error);
             }
+        }
+
+        // Start demo chat
+        function startDemoChat() {
+            isDemoMode = true;
+            currentSessionId = 'demo-session-001';
+            document.getElementById('chat-title').textContent = 'Chat dengan Dr. Demo AI';
+            document.getElementById('demo-badge').style.display = 'inline-block';
+            document.getElementById('chat-area').style.display = 'flex';
+            document.getElementById('no-chat').style.display = 'none';
+            loadDemoMessages();
+            subscribeToDemoMessages();
+        }
+
+        // Load demo messages
+        async function loadDemoMessages() {
+            try {
+                const response = await fetch('/api/chat/demo/messages');
+                if (response.ok) {
+                    const data = await response.json();
+                    displayMessages(data.data);
+                }
+            } catch (error) {
+                console.error('Error loading demo messages:', error);
+            }
+        }
+
+        // Subscribe to demo messages (polling since no auth)
+        function subscribeToDemoMessages() {
+            // Simple polling for demo
+            setInterval(async () => {
+                if (isDemoMode && currentSessionId) {
+                    try {
+                        const response = await fetch('/api/chat/demo/messages');
+                        if (response.ok) {
+                            const data = await response.json();
+                            displayMessages(data.data);
+                        }
+                    } catch (error) {
+                        console.error('Error polling demo messages:', error);
+                    }
+                }
+            }, 2000); // Poll every 2 seconds
         }
 
         // Display chat sessions
@@ -252,8 +317,10 @@
 
         // Open chat session
         function openChat(session) {
+            isDemoMode = false; // Reset demo mode
             currentSessionId = session.id;
             document.getElementById('chat-title').textContent = `Chat dengan ${session.dokter?.nama_dokter || 'Dokter'}`;
+            document.getElementById('demo-badge').style.display = 'none';
             document.getElementById('chat-area').style.display = 'flex';
             document.getElementById('no-chat').style.display = 'none';
             loadMessages(session.id);
@@ -333,15 +400,28 @@
             if (!message || !currentSessionId) return;
 
             try {
-                const response = await fetch('/api/chat/messages', {
-                    method: 'POST',
-                    headers: getAuthHeaders(),
-                    body: JSON.stringify({ session_id: currentSessionId, message })
-                });
+                let response;
+                if (isDemoMode) {
+                    response = await fetch('/api/chat/demo/messages', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ message })
+                    });
+                } else {
+                    response = await fetch('/api/chat/messages', {
+                        method: 'POST',
+                        headers: getAuthHeaders(),
+                        body: JSON.stringify({ session_id: currentSessionId, message })
+                    });
+                }
 
                 if (response.ok) {
                     input.value = '';
-                    loadMessages(currentSessionId); // Refresh messages
+                    if (isDemoMode) {
+                        loadDemoMessages(); // Refresh messages immediately for demo
+                    } else {
+                        loadMessages(currentSessionId); // Refresh messages
+                    }
                 } else {
                     alert('Gagal mengirim pesan');
                 }
