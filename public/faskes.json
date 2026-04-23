@@ -1,0 +1,15 @@
+[
+  {"id":1,"name":"RSUD Ambarawa","type":"hospital","lat":-7.2633,"lng":110.3978,"address":"Jl. Dr. Sutomo No.1, Ambarawa","phone":"(0298) 591002","services":["IGD 24 Jam","Spesialis Jantung","Radiologi"]},
+  {"id":2,"name":"RS Islam Sultan Agung","type":"hospital","lat":-7.0051,"lng":110.4381,"address":"Jl. Sultan Agung No.1, Semarang","phone":"(024) 8316141","services":["IGD 24 Jam","Spesialis Anak","Bedah"]},
+  {"id":3,"name":"RSUP Dr. Kariadi","type":"hospital","lat":-6.9826,"lng":110.4091,"address":"Jl. Dr. Sutomo No.5, Semarang","phone":"(024) 8316141","services":["IGD 24 Jam","Onkologi","Neurologi"]},
+  {"id":4,"name":"RS Elizabeth","type":"hospital","lat":-6.9667,"lng":110.4167,"address":"Jl. Pandanaran No.2, Semarang","phone":"(024) 8316141","services":["IGD 24 Jam","Maternitas","Spesialis Kulit"]},
+  {"id":5,"name":"Klinik Pratama Ambarawa","type":"clinic","lat":-7.2611,"lng":110.3994,"address":"Jl. Pemuda No.15, Ambarawa","phone":"(0298) 591234","services":["Umum","KIA","Imunisasi"]},
+  {"id":6,"name":"Klinik Medika Semarang","type":"clinic","lat":-6.9833,"lng":110.4083,"address":"Jl. Pahlawan No.8, Semarang","phone":"(024) 8312345","services":["Umum","Gigi","Laboratorium"]},
+  {"id":7,"name":"Klinik Sehat Ungaran","type":"clinic","lat":-7.1333,"lng":110.4167,"address":"Jl. Raya Ungaran No.25","phone":"(024) 6923456","services":["Umum","Maternitas","USG"]},
+  {"id":8,"name":"Puskesmas Ambarawa I","type":"puskesmas","lat":-7.2625,"lng":110.3986,"address":"Jl. Kartini No.10, Ambarawa","phone":"(0298) 591567","services":["Kesehatan Umum","Posyandu","KB"]},
+  {"id":9,"name":"Puskesmas Semarang Barat","type":"puskesmas","lat":-6.9839,"lng":110.4072,"address":"Jl. Majapahit No.12, Semarang","phone":"(024) 8314567","services":["Kesehatan Umum","Imunisasi","Gizi"]},
+  {"id":10,"name":"Puskesmas Ungaran","type":"puskesmas","lat":-7.1319,"lng":110.4147,"address":"Jl. Diponegoro No.5, Ungaran","phone":"(024) 6924567","services":["Kesehatan Umum","KIA","Laboratorium"]},
+  {"id":11,"name":"Apotek Kimia Farma Ambarawa","type":"pharmacy","lat":-7.2617,"lng":110.3992,"address":"Jl. Pemuda No.20, Ambarawa","phone":"(0298) 591890","services":["Obat Resep","Obat Bebas","Vitamin"]},
+  {"id":12,"name":"Apotek K24 Semarang","type":"pharmacy","lat":-6.9828,"lng":110.4089,"address":"Jl. Pandanaran No.15, Semarang","phone":"(024) 8317890","services":["Obat Resep","Tes Kehamilan","Suplemen"]},
+  {"id":13,"name":"Apotek Sehat Ungaran","type":"pharmacy","lat":-7.1328,"lng":110.4156,"address":"Jl. Raya Ungaran No.30","phone":"(024) 6927890","services":["Obat Umum","Vitamin","Kosmetik"]}
+]
