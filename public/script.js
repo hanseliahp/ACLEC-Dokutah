@@ -1,8 +1,6 @@
 // script.js - Enhanced Anime.js Animations + Core Functionality
 // 3D cool variatif animations for modern RS theme
-// Dark/Light theme, geolocation, API calls, dynamic lists
 
-// Anime.js already loaded via CDN, use global anime
 
 const API_BASE = '/api';
 
@@ -77,31 +75,7 @@ function pulseButton(btn) {
 }
 
 // === CORE FUNCTIONALITY ===
-// Theme Toggle (enhanced with anime)
-let currentTheme = 'light';
-function setTheme(theme) {
-  const html = document.documentElement;
-  const toggleIcon = document.querySelector('#themeToggle i');
-  
-  anime({
-    targets: 'body',
-    backgroundColor: theme === 'dark' ? '#1a1a1a' : '#f8f9fa',
-    color: theme === 'dark' ? '#f8f9fa' : '#212529',
-    duration: 500,
-    easing: 'easeOutQuart',
-    complete: () => {
-      html.setAttribute('data-theme', theme);
-      localStorage.setItem('theme', theme);
-      currentTheme = theme;
-      toggleIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-    }
-  });
-}
 
-function initTheme() {
-  const saved = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-  setTheme(saved);
-}
 
 // Search Form Handler
 document.getElementById('searchForm')?.addEventListener('submit', async (e) => {
@@ -238,26 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   
-  // 3D Draggable Cards Init (existing)
-  if (typeof anime !== 'undefined' && anime.utils && anime.createDraggable) {
-    anime.utils.set('.square', { z: 100 });
-    anime.createDraggable('.square.draggable', {
-      x: { mapTo: 'rotateY' },
-      y: { mapTo: 'z' },
-    });
-    
-    // Flip on drag threshold
-    document.querySelectorAll('.square.draggable').forEach(square => {
-      const draggable = anime.getDraggableInstance(square);
-      if (draggable) {
-        draggable.addEventListener('drag', (e) => {
-          if (Math.abs(e.detail.offsetX) > 50) {
-            square.classList.toggle('flipped');
-          }
-        });
-      }
-    });
-  }
+
   
   // Enhanced hover + cascade entrance (existing)
   document.querySelectorAll('.doctor-card:not(.square), .card:not(.square)').forEach(card => {
