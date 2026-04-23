@@ -1,60 +1,135 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dokutah</title>
+    <title>Login — Dokutah</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="d-flex align-items-center min-vh-100 bg-light">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6 col-lg-5">
-                <div class="card p-4 shadow-sm">
-                    <div class="text-center mb-4">
-                        <a href="index.html" class="text-decoration-none">
-                            <h2 class="fw-bold text-primary"><i class="fas fa-hospital me-2"></i>DOKUTAH</h2>
-                        </a>
-                        <p class="text-muted mb-0">Masuk untuk mengakses layanan kesehatan terintegrasi</p>
-                    </div>
+<body class="login-page">
 
-                    <form>
-                        <div class="mb-3">
-                            <label for="loginEmail" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="loginEmail" placeholder="alamat@mail.com" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="loginPassword" class="form-label">Kata Sandi</label>
-                            <input type="password" class="form-control" id="loginPassword" placeholder="Minimal 8 karakter" required>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="rememberMe">
-                                <label class="form-check-label" for="rememberMe">Ingat saya</label>
-                            </div>
-                            <a href="#" class="text-decoration-none">Lupa kata sandi?</a>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100 py-2">Masuk</button>
-                    </form>
+    <!-- Emergency Bar -->
+    <div class="login-emergency-bar">
+        <span><i class="fas fa-phone me-1"></i> Emergency: <a href="tel:1500123">1-500-123</a></span>
+        <span>|</span>
+        <span><i class="fas fa-envelope me-1"></i><a href="mailto:info@dokutah.com">info@dokutah.com</a></span>
+    </div>
 
-                    <div class="text-center mt-4">
-                        <p class="mb-1 text-secondary">Belum punya akun?</p>
-                        <a href="register.html" class="btn btn-outline-primary w-100">Daftar Sekarang</a>
-                    </div>
+    <!-- Left Panel -->
+    <div class="login-left-panel">
+        <div class="login-blob"></div>
 
-                    <div class="text-center mt-4">
-                        <a href="index.html" class="text-decoration-none text-secondary"><i class="fas fa-arrow-left me-2"></i>Kembali ke Beranda</a>
-                    </div>
-                </div>
+        <div class="login-brand">
+            <div class="login-brand-icon">
+                <i class="fas fa-hospital-alt"></i>
             </div>
+            <span class="login-brand-text">DOKUTAH</span>
+        </div>
+
+        <div class="login-headline">
+            <h1>Kesehatan Anda,<br><span>Prioritas Kami</span></h1>
+            <p>Platform layanan kesehatan terintegrasi yang menghubungkan Anda dengan dokter terbaik di seluruh Indonesia.</p>
+        </div>
+
+        <ul class="login-feature-list">
+            <li>
+                <div class="lf-check"><i class="fas fa-check"></i></div>
+                Buat janji temu dengan mudah & cepat
+            </li>
+            <li>
+                <div class="lf-check"><i class="fas fa-check"></i></div>
+                Akses jadwal dokter secara real-time
+            </li>
+            <li>
+                <div class="lf-check"><i class="fas fa-check"></i></div>
+                Temukan faskes terdekat di sekitar Anda
+            </li>
+            <li>
+                <div class="lf-check"><i class="fas fa-check"></i></div>
+                Informasi kesehatan terpercaya & terkini
+            </li>
+        </ul>
+
+        <div class="login-trust-badges">
+            <div class="login-badge-pill"><i class="fas fa-shield-alt me-1"></i> Aman & Terenkripsi</div>
+            <div class="login-badge-pill"><i class="fas fa-clock me-1"></i> 24/7 Aktif</div>
         </div>
     </div>
 
+    <!-- Right Panel -->
+    <div class="login-right-panel">
+        <div class="login-box">
+            <div class="login-header">
+                <div class="login-eyebrow">Selamat Datang</div>
+                <h2>Masuk ke Akun Anda</h2>
+                <p>Belum punya akun? <a href="register.html" style="color:#1565c0; font-weight:600; text-decoration:none;">Daftar gratis</a></p>
+            </div>
+
+            <form>
+                <div class="login-form-group">
+                    <label class="login-label" for="loginEmail">Alamat Email</label>
+                    <div class="login-input-wrap">
+                        <input type="email" class="login-input" id="loginEmail" placeholder="nama@email.com" required>
+                        <i class="fas fa-envelope login-input-icon"></i>
+                    </div>
+                </div>
+
+                <div class="login-form-group">
+                    <label class="login-label" for="loginPassword">Kata Sandi</label>
+                    <div class="login-input-wrap">
+                        <input type="password" class="login-input" id="loginPassword" placeholder="Minimal 8 karakter" required>
+                        <i class="fas fa-lock login-input-icon"></i>
+                        <button type="button" class="login-toggle-pw" onclick="togglePassword()">
+                            <i class="fas fa-eye" id="eyeIcon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="login-options">
+                    <label class="login-check">
+                        <input type="checkbox" id="rememberMe">
+                        <span>Ingat saya</span>
+                    </label>
+                    <a href="#" class="login-forgot">Lupa kata sandi?</a>
+                </div>
+
+                <button type="submit" class="login-btn-submit">
+                    <i class="fas fa-arrow-right-to-bracket"></i>
+                    Masuk Sekarang
+                </button>
+            </form>
+
+            <div class="login-divider"><span>atau</span></div>
+
+            <a href="register.html" class="login-btn-register">
+                <i class="fas fa-user-plus"></i>
+                Buat Akun Baru
+            </a>
+
+            <a href="index.html" class="login-back-link">
+                <i class="fas fa-arrow-left"></i>
+                Kembali ke Beranda
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const pw = document.getElementById('loginPassword');
+            const icon = document.getElementById('eyeIcon');
+            if (pw.type === 'password') {
+                pw.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                pw.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
