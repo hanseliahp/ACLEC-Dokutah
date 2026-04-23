@@ -162,11 +162,25 @@ body {
 }
 
 .square-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  display: flex;
   gap: 2rem;
-  justify-items: center;
-  padding: 2rem 0;
+  overflow-x: auto;
+  padding: 2rem 1rem;
+  scrollbar-width: thin;
+}
+
+.square-grid::-webkit-scrollbar {
+  height: 6px;
+}
+
+.square-grid::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-radius: 3px;
+}
+
+.square-grid::-webkit-scrollbar-thumb {
+  background: var(--primary-blue);
+  border-radius: 3px;
 }
 
 @media (max-width: 768px) {
@@ -177,13 +191,16 @@ body {
 }
 
 .square {
-  width: 320px;
-  height: 420px;
+  width: 300px;
+  min-width: 300px;
+  height: 380px;
   position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  cursor: grab;
-  margin: 0 auto;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: pointer;
+  flex-shrink: 0;
 }
 
 .square.draggable:active {
@@ -191,22 +208,16 @@ body {
 }
 
 .square .face {
-  position: absolute;
+  position: relative;
   width: 100%;
   height: 100%;
-  backface-visibility: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 2.5rem 2rem;
+  padding: 2rem;
   box-sizing: border-box;
-  border-radius: 24px;
-  box-shadow: var(--card-shadow);
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
   text-align: center;
-  color: var(--text-primary);
 }
 
 .square .front {
@@ -214,13 +225,19 @@ body {
   background: linear-gradient(135deg, var(--bg-secondary), rgba(13,71,161,0.05));
 }
 
+.square .front {
+  background: white;
+  height: 100%;
+}
+
 .square .front img {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
+  width: 110px;
+  height: 110px;
+  border-radius: 20px;
   object-fit: cover;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  margin-bottom: 1.2rem;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+  border: 4px solid white;
 }
 
 .square .front h3 {
@@ -238,24 +255,7 @@ body {
   font-size: 0.9rem;
 }
 
-.square .back {
-  transform: rotateY(180deg);
-  background: linear-gradient(135deg, var(--primary-blue), var(--primary-light));
-  color: white;
-}
 
-.square .back h4 {
-  margin-bottom: 1rem;
-  opacity: 0.95;
-}
-
-.square.flipped {
-  transform: rotateY(180deg);
-}
-
-.doctor-card.square:hover {
-  transform: rotateY(5deg) rotateX(5deg) scale(1.02);
-}
 
 
 :root {
