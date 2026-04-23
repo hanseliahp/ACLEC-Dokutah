@@ -7,13 +7,13 @@
 =======
   "name": "aclec-dokutah",
   "version": "1.0.0",
-  "type": "module",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.104.0",
+    "cors": "^2.8.6",
     "dotenv": "^16.3.1",
     "express": "^5.2.1"
 >>>>>>> 42f0ff45e1341d1c52a54793c04cf4350136bc63
