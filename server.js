@@ -1,31 +1,69 @@
-import 'dotenv/config'
-import express from 'express'
-import path from 'path'
-import { fileURLToPath } from 'url'
+'use strict';
 
-const app = express()
+require('dotenv').config();
 
-// Fix __dirname (ES module)
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+const path    = require('path');
+const http    = require('http');
+const express = require('express');
+const cors    = require('cors');
 
-// Serve static files
-app.use(express.static(path.join(__dirname, 'public')))
+const { validateEnv }     = require('./src/config/env');
+const apiRoutes            = require('./src/routes/index');
+const { errorHandler }    = require('./src/middleware/errorHandler');
+const { requestLogger }   = require('./src/middleware/logger');
+const { connectSupabase } = require('./src/config/supabase');
 
-// Route for homepage
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'))
-})
+validateEnv();
 
-// Simple API route for testing
-app.get('/api/status', (req, res) => {
-  res.json({ status: 'Server is running!', time: new Date().toLocaleString() })
-})
+const app  = express();
+const PORT = process.env.PORT || 3000;
 
-const PORT = process.env.PORT || 3000
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`)
-})
-app.get('/', (req, res) => {
-  res.send('Server is working 🚀')
-})
+app.use(cors({
+  origin:         process.env.CORS_ORIGIN || '*',
+  methods:        ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+
+app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ extended: true }));
+app.use(requestLogger);
+
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/api', apiRoutes);
+app.use(errorHandler);
+
+const server = http.createServer(app);
+
+const startServer = async () => {
+  try {
+    await connectSupabase();
+  } catch (err) {
+    // Hanya exit jika credentials benar-benar salah (bukan schema belum siap)
+    const isFatal = !err.code || err.message?.includes('Missing Supabase');
+    if (isFatal) {
+      console.error('[SERVER] Fatal: Gagal koneksi Supabase:', err.message);
+      process.exit(1);
+    }
+    console.warn('[SERVER] Warning: Supabase partial, server tetap jalan.');
+  }
+
+  server.listen(PORT, () => {
+    console.log(`\n✅ Server running at http://localhost:${PORT}`);
+    console.log(`📁 Static files from /public`);
+    console.log(`🌐 APIs at http://localhost:${PORT}/api`);
+    console.log(`🔗 Open dokter.html: http://localhost:${PORT}/dokter.html\n`);
+  });
+};
+
+startServer();
+
+const shutdown = (signal) => {
+  console.log(`\n[SERVER] Received ${signal}, shutting down...`);
+  server.close(() => {
+    console.log('[SERVER] Closed.');
+    process.exit(0);
+  });
+};
+
+process.on('SIGTERM', () => shutdown('SIGTERM'));
+process.on('SIGINT',  () => shutdown('SIGINT'));
