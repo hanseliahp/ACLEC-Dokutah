@@ -1,24 +1,23 @@
-// pemesanan routes
 'use strict';
 
 /**
  * src/routes/pemesananRoutes.js
- * Route definitions untuk resource /api/pemesanan
+ * FIX #2: '../controllers/...' → '../controller/...'
  *
  * Endpoint:
- *   GET    /api/pemesanan?id_jadwal=  → daftar pemesanan per jadwal
- *   POST   /api/pemesanan             → buat pemesanan baru
- *   DELETE /api/pemesanan/:id         → batalkan pemesanan
+ *   GET    /api/pemesanan                    → daftar pemesanan (?id_faskes=&id_rumah_sakit=)
+ *   POST   /api/pemesanan                    → buat pemesanan baru
+ *   DELETE /api/pemesanan/:id                → batalkan pemesanan
  */
 
 const { Router } = require('express');
 const { validate, schemas } = require('../middleware/validator');
-const { create, getByJadwal, cancel } = require('../controllers/pemesananController');
+const { create, getByJadwal, cancel } = require('../controller/pemesananController');
 
 const router = Router();
 
-router.get('/',    getByJadwal);
-router.post('/',   validate(schemas.pemesananSchema, 'body'), create);
+router.get('/',       getByJadwal);
+router.post('/',      validate(schemas.pemesananSchema, 'body'), create);
 router.delete('/:id', cancel);
 
 module.exports = router;

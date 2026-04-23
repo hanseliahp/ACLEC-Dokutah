@@ -1,17 +1,16 @@
-// jadwal routes
 'use strict';
 
 /**
  * src/routes/jadwalRoutes.js
- * Route definitions untuk resource /api/jadwal
+ * FIX #2: '../controllers/...' → '../controller/...'
  *
  * Endpoint:
- *   GET  /api/jadwal          → semua jadwal (filter: ?id_dokter=)
- *   GET  /api/jadwal/:id      → detail jadwal + sisa kuota
+ *   GET /api/jadwal          → semua jadwal (?id_dokter=)
+ *   GET /api/jadwal/:id      → detail jadwal by ID
  */
 
 const { Router } = require('express');
-const { getAll, getById } = require('../controllers/jadwalController');
+const { getAll, getById } = require('../controller/jadwalController');
 
 const router = Router();
 

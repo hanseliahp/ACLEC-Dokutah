@@ -96,27 +96,24 @@ const connectSupabase = async () => {
   try {
     const client = getSupabaseClient();
 
-    // Test multiple key tables: dokter and artikel
-    const tablesToTest = ['dokter', 'artikel'];
-    
-    for (const table of tablesToTest) {
-      try {
-        const { error: testError } = await client
-          .from(table)
-          .select('id_*')  // Generic ID column
-          .limit(1);
-        
-        if (testError && testError.code === 'PGRST116') {  // Table does not exist
-          console.warn(`[Supabase] ⚠️  Table '${table}' not found (PGRST116). Server continues.`);
-        } else if (testError) {
-          console.error(`[Supabase] Test '${table}' error:`, testError.message);
-        }
-      } catch (testErr) {
-        console.warn(`[Supabase] Test '${table}' failed:`, testErr.message);
-      }
+    // Test koneksi ke Supabase (bukan ke tabel spesifik, agar tidak crash
+    // jika schema belum lengkap — cukup pastikan URL + key valid)
+    const { error } = await client
+      .from('dokter')
+      .select('id_dokter')
+      .limit(1);
+
+    // PGRST205 = tabel belum ada di schema cache (schema belum di-run)
+    // Biarkan server tetap jalan, endpoint yang relevan akan return error saat dipanggil
+    if (error && error.code === 'PGRST205') {
+      console.warn('[Supabase] ⚠️  Tabel belum siap di DB (PGRST205). Pastikan sudah run schema SQL.');
+      console.warn('[Supabase]    Server tetap berjalan — endpoint DB akan error sampai schema siap.');
+    } else if (error) {
+      console.error('[Supabase] Connection error:', error.message);
+      throw error;
+    } else {
+      console.log('[Supabase] Koneksi berhasil — Supabase ready ✓');
     }
-    
-    console.log('[Supabase] Koneksi berhasil — some tables may need setup ✓');
   } catch (err) {
     // Jangan crash server, cukup log warning
     if (err.code === 'PGRST205') return;
