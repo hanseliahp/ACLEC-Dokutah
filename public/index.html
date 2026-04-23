@@ -196,41 +196,9 @@
 
     <section id="artikel" class="py-5 bg-white">
         <div class="container">
-            <h2 class="section-title text-center">Edukasi & Berita Kesehatan</h2>
-            <div class="row g-4 mt-2">
-                <div class="col-md-4">
-                    <div class="card h-100 article-card border-0 bg-light">
-                        <img src="https://images.unsplash.com/photo-1505576399279-565b52d4ac71?q=80&w=1974&auto=format&fit=crop" class="card-img-top" alt="Artikel" style="height: 200px; object-fit: cover; border-top-left-radius: 10px; border-top-right-radius: 10px;">
-                        <div class="card-body p-4">
-                            <small class="text-primary fw-bold">Pola Hidup</small> • <small class="text-muted">31 Mar 2026</small>
-                            <h5 class="card-title fw-bold mt-2">Pentingnya Cek Kesehatan Rutin di Usia Produktif</h5>
-                            <p class="card-text text-muted small">Mencegah lebih baik daripada mengobati. Ketahui panel pemeriksaan dasar.</p>
-                            <a href="#" class="text-decoration-none fw-bold">Baca Artikel</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card h-100 article-card border-0 bg-light">
-                        <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=2053&auto=format&fit=crop" class="card-img-top" alt="Artikel" style="height: 200px; object-fit: cover; border-top-left-radius: 10px; border-top-right-radius: 10px;">
-                        <div class="card-body p-4">
-                            <small class="text-primary fw-bold">Gizi</small> • <small class="text-muted">28 Mar 2026</small>
-                            <h5 class="card-title fw-bold mt-2">5 Makanan Super untuk Menjaga Tekanan Darah</h5>
-                            <p class="card-text text-muted small">Jaga kesehatan jantung Anda dengan mengonsumsi buah dan sayur.</p>
-                            <a href="#" class="text-decoration-none fw-bold">Baca Artikel</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card h-100 article-card border-0 bg-light">
-                        <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=2030&auto=format&fit=crop" class="card-img-top" alt="Artikel" style="height: 200px; object-fit: cover; border-top-left-radius: 10px; border-top-right-radius: 10px;">
-                        <div class="card-body p-4">
-                            <small class="text-primary fw-bold">Inovasi Medis</small> • <small class="text-muted">20 Mar 2026</small>
-                            <h5 class="card-title fw-bold mt-2">Kemudahan Pesan Jadwal Dokter via Website</h5>
-                            <p class="card-text text-muted small">Inovasi terbaru Dokutah memungkinkan pasien mendaftar tanpa antri.</p>
-                            <a href="#" class="text-decoration-none fw-bold">Baca Artikel</a>
-                        </div>
-                    </div>
-                </div>
+            <h2 class="section-title text-center scroll-anime">Edukasi & Berita Kesehatan</h2>
+            <div class="row g-4 mt-2" id="articlesContainer">
+                <p class="text-center text-muted">Memuat artikel...</p>
             </div>
         </div>
     </section>
@@ -308,6 +276,49 @@
             });
         });
         document.querySelectorAll('.scroll-anime').forEach(el => observer.observe(el));
+
+        // Load articles from API
+        async function loadArticles() {
+            try {
+                const response = await fetch('/api/articles');
+                const articles = await response.json();
+                const container = document.getElementById('articlesContainer');
+
+                if (!articles || articles.length === 0) {
+                    container.innerHTML = '<p class="text-center text-muted col-12">Belum ada artikel. <a href="article-editor.html">Buat artikel pertama Anda</a></p>';
+                    return;
+                }
+
+                // Show only the first 3 articles
+                const displayArticles = articles.slice(0, 3);
+                
+                container.innerHTML = displayArticles.map(article => `
+                    <div class="col-md-4 scroll-anime">
+                        <div class="card h-100 article-card border-0 bg-light">
+                            <div class="card-img-top" style="height: 200px; background: linear-gradient(135deg, #0d47a1, #bbdefb); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+                                <i class="fas fa-newspaper"></i>
+                            </div>
+                            <div class="card-body p-4">
+                                <small class="text-primary fw-bold">${article.category}</small> • <small class="text-muted">${new Date(article.created_at).toLocaleDateString('id-ID')}</small>
+                                <h5 class="card-title fw-bold mt-2">${article.title}</h5>
+                                <p class="card-text text-muted small">${article.content.substring(0, 100)}...</p>
+                                <a href="#" class="text-decoration-none fw-bold">Baca Artikel</a>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Re-observe new elements for animations
+                document.querySelectorAll('.scroll-anime').forEach(el => observer.observe(el));
+            } catch (err) {
+                console.error('Error loading articles:', err);
+                const container = document.getElementById('articlesContainer');
+                container.innerHTML = '<p class="text-center text-danger col-12">Gagal memuat artikel</p>';
+            }
+        }
+
+        // Load articles when page loads
+        loadArticles();
     </script>
 </body>
 </html>
