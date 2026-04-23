@@ -900,3 +900,115 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     .login-left-panel { display: none; }
     .login-right-panel { width: 100%; padding: 2rem 1.5rem; }
 }
+
+.register-page {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: #f0f4f8;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+/* Card */
+.register-card {
+    border-radius: 20px;
+    padding: 2.5rem;
+    border: none;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.12);
+    background: white;
+}
+
+/* Title */
+.register-title {
+    font-weight: 800;
+    color: #1a2332;
+}
+
+.register-subtitle {
+    color: #718096;
+    font-size: 0.95rem;
+}
+
+/* Input */
+.register-input {
+    border-radius: 12px;
+    padding: 12px 14px;
+    border: 1.5px solid #e2e8f0;
+    background: #f8fafc;
+    transition: all 0.25s ease;
+}
+
+.register-input:focus {
+    border-color: #1565c0;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(21,101,192,0.1);
+}
+
+/* Label */
+.register-label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #1a2332;
+}
+
+/* Button */
+.register-btn {
+    border-radius: 12px;
+    font-weight: 700;
+    padding: 12px;
+    background: linear-gradient(135deg, #1565c0, #1976d2);
+    border: none;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.register-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(21,101,192,0.4);
+}
+
+/* Divider */
+.register-divider {
+    text-align: center;
+    margin: 1.8rem 0;
+    color: #718096;
+    font-size: 0.85rem;
+}
+
+/* Social */
+.register-social button {
+    border-radius: 10px;
+    padding: 10px;
+    font-weight: 600;
+}
+
+/* Link */
+.register-link {
+    color: #1565c0;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.register-link:hover {
+    color: #0d47a1;
+}
+
+.register-box {
+    max-width: 420px;
+}
+
+/* biar beda dikit tapi tetap konsisten */
+.register-page .login-headline h1 span {
+    color: #ffcc00;
+}
+
+/* link register */
+.register-link {
+    color: #1565c0;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.register-link:hover {
+    color: #0d47a1;
+}
