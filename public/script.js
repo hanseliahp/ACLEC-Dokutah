@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const marker = L.marker([place.latitude, place.longitude], {
               icon: L.divIcon({
                 className: 'custom-marker',
-                html: `<div style="background: ${iconColor}; width: 20px; height: 20px; border-radius Ascendingly 50%; border: 3px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.3);"></div>`,
+                html: `<div style="background: ${iconColor}; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.3);"></div>`,
                 iconSize: [26, 26]
               })
             }).addTo(map)

@@ -1,29 +1,31 @@
-router.get('/', async (req, res) => {
-  try {
-    const { getSupabaseClient } = require('../config/supabase');
-    const supabase = getSupabaseClient();
+'use strict';
 
-    const { data, error } = await supabase
-      .from('fasilitas_kesehatan')
-      .select('*');
+/**
+ * src/routes/faskesRoutes.js
+ *
+ * GET /api/faskes                  → getAll
+ * GET /api/faskes/jenis            → getAllJenis
+ * GET /api/faskes/nearby           → getNearby (Haversine)
+ * GET /api/faskes/dijkstra         → getNearestDijkstra ⭐ Dijkstra Algorithm
+ * GET /api/faskes/by-dokter        → getByDokterKriteria
+ * GET /api/faskes/:id              → getById
+ */
 
-    if (error) throw error;
+const { Router } = require('express');
+const { validate, schemas }    = require('../middleware/validator');
+const {
+  getAll, getById, getNearby, getNearestDijkstra,
+  getAllJenis, getByDokterKriteria,
+} = require('../controller/faskesController');
 
-    // Transform to frontend format
-    const formatted = data.map(f => ({
-      id: f.id_faskes,
-      name: f.nama_faskes,
-      address: f.alamat,
-      phone: '-', // you didn't store this in new schema
-      lat: f.latitude,
-      lng: f.longitude,
-      type: 'puskesmas', // or dynamic later
-      services: ['Umum']
-    }));
+const router = Router();
 
-    res.json(formatted);
+// Statis dulu, baru dinamis (:id)
+router.get('/jenis',     getAllJenis);
+router.get('/nearby',    validate(schemas.koordinatSchema, 'query'), getNearby);
+router.get('/dijkstra',  validate(schemas.koordinatSchema, 'query'), getNearestDijkstra);
+router.get('/by-dokter', validate(schemas.koordinatSchema, 'query'), getByDokterKriteria);
+router.get('/',          getAll);
+router.get('/:id',       getById);
 
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+module.exports = router;
