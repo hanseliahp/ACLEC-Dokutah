@@ -141,6 +141,9 @@ const sendDemoMessage = async (req, res, next) => {
     next(err);
   }
 };
+
+// Get user chat sessions
+const getUserChatSessions = async (req, res, next) => {
   try {
     const supabase = getSupabaseClient();
     const userId = req.user?.id; // Assuming auth middleware sets req.user
@@ -339,7 +342,7 @@ const closeChatSession = async (req, res, next) => {
 };
 
 module.exports = {
-  getChatSessions,
+  getChatSessions: getUserChatSessions,
   startChatSession,
   getMessages,
   sendMessage,
