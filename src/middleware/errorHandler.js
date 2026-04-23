@@ -93,8 +93,8 @@ const errorHandler = (err, req, res, next) => { // eslint-disable-line no-unused
   let error = { ...err, message: err.message, stack: err.stack };
   error.statusCode = err.statusCode || 500;
 
-  // Deteksi error dari PostgreSQL (pg library)
-  if (err.code && typeof err.code === 'string' && err.code.match(/^\d{5}$/)) {
+  // Deteksi pg errors ONLY (Supabase uses different format)
+  if (err.code && err.code.match(/^[A-Z]{4,5}\d{3}$/) && !err.status && !err.error) {
     error = handlePostgresError(err);
   }
 

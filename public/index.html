@@ -283,7 +283,7 @@
     
     <script>
 
-
+        const API_BASE = 'http://localhost:3000/api';
         // Map Initialization (Indonesia location)
         const map = L.map('rs-sehat-map').setView([-7.3084, 110.4970], 12);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -295,7 +295,7 @@
 let facilities = [];
 async function loadFacilities() {
   try {
-    const response = await fetch('/faskes.json');
+    const response = await fetch('/api/faskes');
     facilities = await response.json();
     addFacilityMarkers(); // Re-add markers with loaded data
     console.log('✅ Faskes loaded from JSON:', facilities.length, 'facilities');
