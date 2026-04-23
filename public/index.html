@@ -12,6 +12,37 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+    <div class="navbar">
+        <div class="container">
+            <a href="#" class="navbar-brand">Dokutah</a>
+                <a href="#" class="nav-link">Beranda</a>
+                <a href="#" class="nav-link">Layanan</a>
+                <a href="#" class="nav-link">Dokter</a>
+                <a href="#" class="nav-link">Lokasi</a>
+                <a href="#" class="nav-link">Artikel</a>
+        <div class="btn">
+            <a href="#" class="btn btn-primary">Login</a>
+            <a href="#" class="btn btn-secondary">Register</a>
+            <a href="#" class="btn btn-outline-secondary">Buat Janji Temu</a>
+            <a href="#" class="btn btn-outline-secondary">Darurat</a>
+        </div>
+        </div>
+    </div>
+    <div class="container mt-4">
+        <h1>Pusat Layanan Kesehatan Unggulan</h1>
+        <p>Memberikan perawatan medis berstandar internasional dengan teknologi terkini.</p>
+        <a href="#" class="btn btn-primary">Pesan ke Dokter via Website</a>
+        <div id="map" style="height: 400px;"></div>
+    </div>
+    <script>
+        var map = L.map('map').setView([51.505, -0.09], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors|Dokutah'
+        }).addTo(map);
+        L.marker([51.5, -0.09]).addTo(map)
+            .bindPopup('A sample marker.')
+            .openPopup();
+    </script>
+    <p class="text-center mt-4">&copy; 2026 Dokutah. All rights reserved.</p>
 </body>
 </html>
