@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dokutah</title>
+    <title>Dokter Non-BPJS - Dokutah</title>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-        <div class="bg-light py-2 d-none d-lg-block">
+
+    <div class="bg-light py-2 d-none d-lg-block">
         <div class="container d-flex justify-content-between">
             <div><i class="fas fa-phone-alt me-2 text-primary"></i> Emergency: 1-500-123</div>
             <div>
@@ -31,11 +31,11 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#">Beranda</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#layanan">Layanan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#dokter">Dokter</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#lokasi">Lokasi</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#artikel">Artikel</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#layanan">Layanan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#dokter">Dokter</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#lokasi">Lokasi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#artikel">Artikel</a></li>
                     <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
                 </ul>
                 <a href="janji-temu.html" class="btn btn-primary ms-3 rounded-pill px-4 fw-bold">Buat Janji Temu</a>
@@ -43,5 +43,143 @@
             </div>
         </div>
     </nav>
+
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-lg-8 mx-auto">
+                    <h1 class="h2 fw-bold text-center mb-2">Dokter Umum & Spesialis Pembayaran Mandiri</h1>
+                    <p class="text-center text-muted mb-4">Layanan kesehatan dengan sistem pembayaran fleksibel. Konsultasi dengan dokter berpengalaman tanpa ribet.</p>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm h-100 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=2070&auto=format&fit=crop" class="card-img-top" style="height: 250px; object-fit: cover;" alt="Dr. Ratna Dewi">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Dr. Ratna Dewi</h5>
+                            <p class="text-muted small mb-2"><i class="fas fa-stethoscope me-1"></i> Internal Medicine</p>
+                            <p class="small mb-3"><i class="fas fa-clock me-1 text-primary"></i> Senin - Jumat, 08:00 - 16:00</p>
+                            <p class="small text-danger fw-bold mb-3">Tarif: Rp 150.000 - Rp 250.000</p>
+                            <p class="small text-muted mb-3">15+ tahun pengalaman dalam penyakit dalam. Ahli diabetes & hipertensi.</p>
+                            <div class="d-grid gap-2">
+                                <a href="janji-temu.html" class="btn btn-primary btn-sm fw-bold rounded-pill">Buat Janji</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm h-100 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=2070&auto=format&fit=crop" class="card-img-top" style="height: 250px; object-fit: cover;" alt="Dr. Sarah Larasati">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Dr. Sarah Larasati</h5>
+                            <p class="text-muted small mb-2"><i class="fas fa-stethoscope me-1"></i> Pediatrics</p>
+                            <p class="small mb-3"><i class="fas fa-clock me-1 text-primary"></i> Selasa - Sabtu, 09:00 - 17:00</p>
+                            <p class="small text-danger fw-bold mb-3">Tarif: Rp 120.000 - Rp 200.000</p>
+                            <p class="small text-muted mb-3">Spesialis anak dengan fokus imunisasi & tumbuh kembang.</p>
+                            <div class="d-grid gap-2">
+                                <a href="janji-temu.html" class="btn btn-primary btn-sm fw-bold rounded-pill">Buat Janji</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm h-100 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1594824436998-dded0bce999c?q=80&w=2070&auto=format&fit=crop" class="card-img-top" style="height: 250px; object-fit: cover;" alt="Dr. Budi Santoso">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Dr. Budi Santoso</h5>
+                            <p class="text-muted small mb-2"><i class="fas fa-stethoscope me-1"></i> Cardiology</p>
+                            <p class="small mb-3"><i class="fas fa-clock me-1 text-primary"></i> Senin - Kamis, 10:00 - 18:00</p>
+                            <p class="small text-danger fw-bold mb-3">Tarif: Rp 250.000 - Rp 400.000</p>
+                            <p class="small text-muted mb-3">Ahli kardiologi intervensi & bedah non-invasif jantung.</p>
+                            <div class="d-grid gap-2">
+                                <a href="janji-temu.html" class="btn btn-primary btn-sm fw-bold rounded-pill">Buat Janji</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm h-100 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=2064&auto=format&fit=crop" class="card-img-top" style="height: 250px; object-fit: cover;" alt="Dr. Andi Wijaya">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Dr. Andi Wijaya</h5>
+                            <p class="text-muted small mb-2"><i class="fas fa-stethoscope me-1"></i> Neurology</p>
+                            <p class="small mb-3"><i class="fas fa-clock me-1 text-primary"></i> Rabu - Minggu, 11:00 - 19:00</p>
+                            <p class="small text-danger fw-bold mb-3">Tarif: Rp 200.000 - Rp 350.000</p>
+                            <p class="small text-muted mb-3">Neurologi dewasa & anak, spesialis stroke & epilepsi.</p>
+                            <div class="d-grid gap-2">
+                                <a href="janji-temu.html" class="btn btn-primary btn-sm fw-bold rounded-pill">Buat Janji</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-white">
+        <div class="container">
+            <h2 class="h3 fw-bold text-center mb-5">Metode Pembayaran & Paket Kesehatan</h2>
+
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card border-0 bg-light p-4">
+                        <h5 class="fw-bold mb-3"><i class="fas fa-credit-card me-2 text-primary"></i>Metode Pembayaran Tersedia</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Tunai di lokasi</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Transfer Bank</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> E-Wallet & QRIS</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Cicilan 0% (Kartu Kredit)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card border-0 bg-light p-4">
+                        <h5 class="fw-bold mb-3"><i class="fas fa-gift me-2 text-primary"></i>Paket Hemat</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Paket 4 Konsultasi: 10% Diskon</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Paket Keluarga: 15% Diskon</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Check Up Tahunan: 20% Diskon</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Member Premium: Akses Prioritas</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark text-white pt-5 pb-3 mt-auto">
+        <div class="container">
+            <div class="row text-center text-md-start">
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <h5 class="text-uppercase mb-4 fw-bold text-warning">Dokutah</h5>
+                    <p>Melayani dengan sepenuh hati demi kesembuhan dan kenyamanan Anda. Hadir dengan inovasi digital untuk memudahkan akses kesehatan.</p>
+                </div>
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <h5 class="text-uppercase mb-4 fw-bold text-warning">Hubungi Kami</h5>
+                    <p><i class="fas fa-home me-3"></i> Jl. Pemuda No. 8, Ambarawa</p>
+                    <p><i class="fas fa-envelope me-3"></i> info@dokutah.com</p>
+                    <p><i class="fas fa-phone me-3"></i> +62 812 3456 7890</p>
+                </div>
+                <div class="col-md-12 col-lg-4 mb-4 text-center text-lg-start">
+                    <h5 class="text-uppercase mb-4 fw-bold text-warning">Ikuti Kami</h5>
+                    <a href="#" class="text-white me-4 fs-4"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-white me-4 fs-4"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" class="text-white me-4 fs-4"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <hr class="mb-4">
+            <div class="text-center">
+                <p>&copy; 2026 Dokutah. Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

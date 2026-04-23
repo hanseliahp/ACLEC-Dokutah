@@ -191,9 +191,20 @@
                     </h3>
                     <p class="lead text-muted">RS, Klinik, Puskesmas & Apotek di sekitar Anda</p>
                 </div>
-                <div id="rs-sehat-map" style="height: 400px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden;"></div>
-                <div class="map-controls">
-                    <button class="locate-btn" id="locateBtn" title="Lokasi Saya"><i class="fas fa-location-arrow"></i></button>
+                <div class="map-container position-relative">
+                    <div class="map-controls">
+                        <button class="locate-btn" id="locateBtn" title="Lokasi Saya"><i class="fas fa-location-arrow"></i></button>
+                        <button class="gps-nav-btn" id="findNearestBtn" title="Faskes Terdekat"><i class="fas fa-search-location"></i></button>
+                    </div>
+                    <div id="rs-sehat-map" style="height: 400px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden;"></div>
+                </div>
+                
+                <!-- Nearest Facilities Panel -->
+                <div id="nearestFacilities" class="nearest-facilities-panel" style="display: none;">
+                    <h5 class="mb-3"><i class="fas fa-map-marker-alt text-primary me-2"></i>Faskes Terdekat</h5>
+                    <div id="facilitiesList" class="facilities-list">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
                 </div>
             </section>
         </div>
@@ -280,6 +291,237 @@
             referrerPolicy: 'strict-origin-when-cross-origin'
         }).addTo(map);
 
+        // Database Faskes (RS, Klinik, Puskesmas, Apotek)
+        const facilities = [
+            // Rumah Sakit
+            { id: 1, name: "RSUD Ambarawa", type: "hospital", lat: -7.2633, lng: 110.3978, address: "Jl. Dr. Sutomo No.1, Ambarawa", phone: "(0298) 591002", services: ["IGD 24 Jam", "Spesialis Jantung", "Radiologi"] },
+            { id: 2, name: "RS Islam Sultan Agung", type: "hospital", lat: -7.0051, lng: 110.4381, address: "Jl. Sultan Agung No.1, Semarang", phone: "(024) 8316141", services: ["IGD 24 Jam", "Spesialis Anak", "Bedah"] },
+            { id: 3, name: "RSUP Dr. Kariadi", type: "hospital", lat: -6.9826, lng: 110.4091, address: "Jl. Dr. Sutomo No.5, Semarang", phone: "(024) 8316141", services: ["IGD 24 Jam", "Onkologi", "Neurologi"] },
+            { id: 4, name: "RS Elizabeth", type: "hospital", lat: -6.9667, lng: 110.4167, address: "Jl. Pandanaran No.2, Semarang", phone: "(024) 8316141", services: ["IGD 24 Jam", "Maternitas", "Spesialis Kulit"] },
+            
+            // Klinik
+            { id: 5, name: "Klinik Pratama Ambarawa", type: "clinic", lat: -7.2611, lng: 110.3994, address: "Jl. Pemuda No.15, Ambarawa", phone: "(0298) 591234", services: ["Umum", "KIA", "Imunisasi"] },
+            { id: 6, name: "Klinik Medika Semarang", type: "clinic", lat: -6.9833, lng: 110.4083, address: "Jl. Pahlawan No.8, Semarang", phone: "(024) 8312345", services: ["Umum", "Gigi", "Laboratorium"] },
+            { id: 7, name: "Klinik Sehat Ungaran", type: "clinic", lat: -7.1333, lng: 110.4167, address: "Jl. Raya Ungaran No.25", phone: "(024) 6923456", services: ["Umum", "Maternitas", "USG"] },
+            
+            // Puskesmas
+            { id: 8, name: "Puskesmas Ambarawa I", type: "puskesmas", lat: -7.2625, lng: 110.3986, address: "Jl. Kartini No.10, Ambarawa", phone: "(0298) 591567", services: ["Kesehatan Umum", "Posyandu", "KB"] },
+            { id: 9, name: "Puskesmas Semarang Barat", type: "puskesmas", lat: -6.9839, lng: 110.4072, address: "Jl. Majapahit No.12, Semarang", phone: "(024) 8314567", services: ["Kesehatan Umum", "Imunisasi", "Gizi"] },
+            { id: 10, name: "Puskesmas Ungaran", type: "puskesmas", lat: -7.1319, lng: 110.4147, address: "Jl. Diponegoro No.5, Ungaran", phone: "(024) 6924567", services: ["Kesehatan Umum", "KIA", "Laboratorium"] },
+            
+            // Apotek
+            { id: 11, name: "Apotek Kimia Farma Ambarawa", type: "pharmacy", lat: -7.2617, lng: 110.3992, address: "Jl. Pemuda No.20, Ambarawa", phone: "(0298) 591890", services: ["Obat Resep", "Obat Bebas", "Vitamin"] },
+            { id: 12, name: "Apotek K24 Semarang", type: "pharmacy", lat: -6.9828, lng: 110.4089, address: "Jl. Pandanaran No.15, Semarang", phone: "(024) 8317890", services: ["Obat Resep", "Tes Kehamilan", "Suplemen"] },
+            { id: 13, name: "Apotek Sehat Ungaran", type: "pharmacy", lat: -7.1328, lng: 110.4156, address: "Jl. Raya Ungaran No.30", phone: "(024) 6927890", services: ["Obat Umum", "Vitamin", "Kosmetik"] }
+        ];
+
+        // Facility markers and user location
+        let facilityMarkers = [];
+        let userMarker = null;
+        let userLocation = null;
+
+        // Dijkstra's Algorithm for finding shortest path
+        class Graph {
+            constructor() {
+                this.nodes = {};
+            }
+
+            addNode(node) {
+                this.nodes[node] = {};
+            }
+
+            addEdge(node1, node2, weight) {
+                this.nodes[node1][node2] = weight;
+                this.nodes[node2][node1] = weight; // Undirected graph
+            }
+
+            shortestPath(start, end) {
+                const distances = {};
+                const previous = {};
+                const queue = new Set();
+
+                // Initialize
+                for (let node in this.nodes) {
+                    distances[node] = node === start ? 0 : Infinity;
+                    previous[node] = null;
+                    queue.add(node);
+                }
+
+                while (queue.size > 0) {
+                    // Find node with smallest distance
+                    let minDistance = Infinity;
+                    let current = null;
+                    for (let node of queue) {
+                        if (distances[node] < minDistance) {
+                            minDistance = distances[node];
+                            current = node;
+                        }
+                    }
+
+                    if (current === null || distances[current] === Infinity) break;
+
+                    queue.delete(current);
+
+                    // Update distances to neighbors
+                    for (let neighbor in this.nodes[current]) {
+                        const distance = distances[current] + this.nodes[current][neighbor];
+                        if (distance < distances[neighbor]) {
+                            distances[neighbor] = distance;
+                            previous[neighbor] = current;
+                        }
+                    }
+                }
+
+                // Reconstruct path
+                const path = [];
+                let current = end;
+                while (current !== null) {
+                    path.unshift(current);
+                    current = previous[current];
+                }
+
+                return {
+                    distance: distances[end],
+                    path: path
+                };
+            }
+        }
+
+        // Calculate distance between two coordinates (Haversine formula)
+        function calculateDistance(lat1, lng1, lat2, lng2) {
+            const R = 6371; // Earth's radius in km
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLng = (lng2 - lng1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                     Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                     Math.sin(dLng/2) * Math.sin(dLng/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c; // Distance in km
+        }
+
+        // Add facility markers to map
+        function addFacilityMarkers() {
+            facilities.forEach(facility => {
+                const iconHtml = getFacilityIcon(facility.type);
+                const marker = L.marker([facility.lat, facility.lng], {
+                    icon: L.divIcon({
+                        html: iconHtml,
+                        className: 'facility-marker',
+                        iconSize: [30, 30],
+                        iconAnchor: [15, 30]
+                    })
+                });
+
+                const popupContent = `
+                    <div class="facility-popup">
+                        <h6 class="fw-bold">${facility.name}</h6>
+                        <p class="small mb-1"><i class="fas fa-map-marker-alt me-1"></i>${facility.address}</p>
+                        <p class="small mb-1"><i class="fas fa-phone me-1"></i>${facility.phone}</p>
+                        <div class="services small">
+                            <strong>Layanan:</strong><br>
+                            ${facility.services.map(service => `<span class="badge bg-light text-dark me-1">${service}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+
+                marker.bindPopup(popupContent);
+                marker.addTo(map);
+                facilityMarkers.push(marker);
+            });
+        }
+
+        // Get facility icon based on type
+        function getFacilityIcon(type) {
+            const icons = {
+                hospital: '<i class="fas fa-hospital text-danger" style="font-size: 20px;"></i>',
+                clinic: '<i class="fas fa-clinic-medical text-primary" style="font-size: 20px;"></i>',
+                puskesmas: '<i class="fas fa-building text-success" style="font-size: 20px;"></i>',
+                pharmacy: '<i class="fas fa-pills text-warning" style="font-size: 20px;"></i>'
+            };
+            return icons[type] || icons.clinic;
+        }
+
+        // Find nearest facilities using Dijkstra's algorithm
+        function findNearestFacilities(userLat, userLng, limit = 5) {
+            // Create graph with facilities as nodes
+            const graph = new Graph();
+            
+            // Add all facilities as nodes
+            facilities.forEach(facility => {
+                graph.addNode(facility.id.toString());
+            });
+
+            // Add edges between all facilities (complete graph)
+            facilities.forEach(facility1 => {
+                facilities.forEach(facility2 => {
+                    if (facility1.id !== facility2.id) {
+                        const distance = calculateDistance(facility1.lat, facility1.lng, facility2.lat, facility2.lng);
+                        graph.addEdge(facility1.id.toString(), facility2.id.toString(), distance);
+                    }
+                });
+            });
+
+            // Calculate distances from user location to all facilities
+            const distances = facilities.map(facility => ({
+                ...facility,
+                distance: calculateDistance(userLat, userLng, facility.lat, facility.lng)
+            }));
+
+            // Sort by distance
+            distances.sort((a, b) => a.distance - b.distance);
+
+            return distances.slice(0, limit);
+        }
+
+        // Display nearest facilities
+        function displayNearestFacilities(nearbyFacilities) {
+            const facilitiesList = document.getElementById('facilitiesList');
+            const nearestPanel = document.getElementById('nearestFacilities');
+            
+            facilitiesList.innerHTML = '';
+            
+            nearbyFacilities.forEach((facility, index) => {
+                const facilityItem = document.createElement('div');
+                facilityItem.className = 'facility-item';
+                facilityItem.innerHTML = `
+                    <div class="d-flex align-items-start">
+                        <div class="facility-icon me-3">
+                            ${getFacilityIcon(facility.type)}
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="fw-bold mb-1">${facility.name}</h6>
+                            <p class="small text-muted mb-1">${facility.address}</p>
+                            <p class="small mb-2"><i class="fas fa-phone me-1"></i>${facility.phone}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="distance-badge">${facility.distance.toFixed(1)} km</span>
+                                <button class="btn btn-sm btn-outline-primary" onclick="navigateToFacility(${facility.lat}, ${facility.lng})">
+                                    <i class="fas fa-directions me-1"></i>Arah
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    ${index < nearbyFacilities.length - 1 ? '<hr class="my-3">' : ''}
+                `;
+                facilitiesList.appendChild(facilityItem);
+            });
+            
+            nearestPanel.style.display = 'block';
+            nearestPanel.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Navigate to facility
+        function navigateToFacility(lat, lng) {
+            if (userLocation) {
+                const url = `https://www.google.com/maps/dir/${userLocation.lat},${userLocation.lng}/${lat},${lng}`;
+                window.open(url, '_blank');
+            } else {
+                alert('Silakan aktifkan lokasi Anda terlebih dahulu');
+            }
+        }
+
+        // Initialize map
+        addFacilityMarkers();
+
         // Locate user
         const locateBtn = document.getElementById('locateBtn');
         locateBtn.addEventListener('click', () => {
@@ -287,8 +529,51 @@
             locateBtn.classList.add('active');
             setTimeout(() => locateBtn.classList.remove('active'), 2000);
         });
+
         map.on('locationfound', (e) => {
-            L.marker(e.latlng).addTo(map).bindPopup('Lokasi Anda').openPopup();
+            userLocation = e.latlng;
+            
+            // Remove existing user marker
+            if (userMarker) {
+                map.removeLayer(userMarker);
+            }
+            
+            // Add user marker
+            userMarker = L.marker(e.latlng, {
+                icon: L.divIcon({
+                    html: '<i class="fas fa-user text-danger" style="font-size: 20px;"></i>',
+                    className: 'user-marker',
+                    iconSize: [30, 30],
+                    iconAnchor: [15, 30]
+                })
+            }).addTo(map).bindPopup('Lokasi Anda').openPopup();
+        });
+
+        map.on('locationerror', (e) => {
+            alert('Tidak dapat menemukan lokasi Anda. Pastikan GPS aktif dan izinkan akses lokasi.');
+        });
+
+        // Find nearest facilities button
+        const findNearestBtn = document.getElementById('findNearestBtn');
+        findNearestBtn.addEventListener('click', () => {
+            if (!userLocation) {
+                alert('Silakan klik tombol lokasi terlebih dahulu untuk menemukan posisi Anda');
+                return;
+            }
+
+            const nearbyFacilities = findNearestFacilities(userLocation.lat, userLocation.lng);
+            displayNearestFacilities(nearbyFacilities);
+            
+            // Highlight nearest facilities on map
+            facilityMarkers.forEach(marker => {
+                const facility = facilities.find(f => f.lat === marker.getLatLng().lat && f.lng === marker.getLatLng().lng);
+                if (facility && nearbyFacilities.some(nf => nf.id === facility.id)) {
+                    marker.setOpacity(1);
+                    marker.openPopup();
+                } else {
+                    marker.setOpacity(0.5);
+                }
+            });
         });
 
         // 3D Doctor Cards Flip (simple click flip)

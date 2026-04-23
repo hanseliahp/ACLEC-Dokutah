@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dokutah</title>
+    <title>Gawat Darurat - Dokutah</title>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -12,11 +13,12 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-        <div class="bg-light py-2 d-none d-lg-block">
+
+    <div class="bg-light py-2 d-none d-lg-block">
         <div class="container d-flex justify-content-between">
-            <div><i class="fas fa-phone-alt me-2 text-primary"></i> Emergency: 1-500-123</div>
+            <div><i class="fas fa-phone-alt me-2 text-danger"></i> <strong>EMERGENCY HOTLINE: 1-500-123</strong></div>
             <div>
-                <a href="#" class="text-decoration-none text-dark me-3"><i class="fas fa-envelope me-1"></i> info@dokutah.com</a>
+                <a href="tel:1500123" class="text-decoration-none text-danger me-3 fw-bold"><i class="fas fa-phone me-1"></i> Hubungi Sekarang</a>
             </div>
         </div>
     </div>
@@ -31,11 +33,11 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#">Beranda</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#layanan">Layanan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#dokter">Dokter</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#lokasi">Lokasi</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#artikel">Artikel</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#layanan">Layanan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#dokter">Dokter</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#lokasi">Lokasi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#artikel">Artikel</a></li>
                     <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
                 </ul>
                 <a href="janji-temu.html" class="btn btn-primary ms-3 rounded-pill px-4 fw-bold">Buat Janji Temu</a>
@@ -43,5 +45,203 @@
             </div>
         </div>
     </nav>
+
+    <!-- Emergency Alert -->
+    <div class="alert alert-danger alert-dismissible fade show m-0 rounded-0" role="alert">
+        <div class="container">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <strong>GAWAT DARURAT!</strong> Jika Anda mengalami kondisi darurat, hubungi emergency hotline kami di <strong>1-500-123</strong> atau datang langsung ke rumah sakit terdekat.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="bg-danger text-white py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold mb-3">Layanan Gawat Darurat 24/7</h1>
+                    <p class="lead mb-4">Tim dokter dan paramedis kami siap 24 jam setiap hari untuk menangani situasi darurat medis apapun dengan cepat dan profesional.</p>
+                    <a href="tel:1500123" class="btn btn-light btn-lg fw-bold">
+                        <i class="fas fa-phone me-2"></i>Hubungi Sekarang: 1-500-123
+                    </a>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <i class="fas fa-ambulance" style="font-size: 120px; opacity: 0.2;"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="py-5 bg-white">
+        <div class="container">
+            <div class="row g-4 mb-5">
+                <div class="col-md-6 col-lg-3">
+                    <div class="card border-0 shadow-sm h-100 text-center p-4">
+                        <div class="mb-3" style="font-size: 50px; color: #dc3545;">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h5 class="fw-bold">Respon Cepat</h5>
+                        <p class="text-muted small">Ambulans kami siap dalam hitungan menit untuk menjemput Anda</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card border-0 shadow-sm h-100 text-center p-4">
+                        <div class="mb-3" style="font-size: 50px; color: #dc3545;">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <h5 class="fw-bold">Dokter Berpengalaman</h5>
+                        <p class="text-muted small">Tim dokter spesialis siaga untuk penanganan darurat</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card border-0 shadow-sm h-100 text-center p-4">
+                        <div class="mb-3" style="font-size: 50px; color: #dc3545;">
+                            <i class="fas fa-hospital"></i>
+                        </div>
+                        <h5 class="fw-bold">Fasilitas Lengkap</h5>
+                        <p class="text-muted small">ICU, ruang operasi, dan peralatan canggih tersedia</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card border-0 shadow-sm h-100 text-center p-4">
+                        <div class="mb-3" style="font-size: 50px; color: #dc3545;">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <h5 class="fw-bold">Siaga 24 Jam</h5>
+                        <p class="text-muted small">Layanan non-stop, setiap hari, sepanjang tahun</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Emergency Procedures -->
+            <div class="row g-4 mb-5">
+                <div class="col-lg-6">
+                    <h2 class="fw-bold mb-4">Apa yang Harus Dilakukan?</h2>
+                    <div class="card border-0 bg-light p-4 mb-3">
+                        <h6 class="fw-bold text-danger mb-2"><i class="fas fa-phone me-2"></i>1. Hubungi Segera</h6>
+                        <p class="small text-muted mb-0">Telepon 1-500-123 dari ponsel atau telepon rumah. Tim dispatch kami akan mengambil informasi lokasi dan kondisi Anda.</p>
+                    </div>
+                    <div class="card border-0 bg-light p-4 mb-3">
+                        <h6 class="fw-bold text-danger mb-2"><i class="fas fa-ambulance me-2"></i>2. Ambulans Dikirim</h6>
+                        <p class="small text-muted mb-0">Ambulans kami akan segera dikirim ke lokasi Anda dengan peralatan medis lengkap dan paramedis berpengalaman.</p>
+                    </div>
+                    <div class="card border-0 bg-light p-4 mb-3">
+                        <h6 class="fw-bold text-danger mb-2"><i class="fas fa-hospital me-2"></i>3. Penanganan Medis</h6>
+                        <p class="small text-muted mb-0">Di rumah sakit, tim dokter spesialis akan segera memberikan penanganan dan perawatan intensif yang diperlukan.</p>
+                    </div>
+                    <div class="card border-0 bg-light p-4">
+                        <h6 class="fw-bold text-danger mb-2"><i class="fas fa-file-medical me-2"></i>4. Koordinasi Keluarga</h6>
+                        <p class="small text-muted mb-0">Kami akan segera menghubungi keluarga Anda dan memberikan informasi update tentang kondisi pasien.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <h2 class="fw-bold mb-4">Kondisi Darurat yang Ditangani</h2>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-check-circle text-danger me-3 mt-1" style="flex-shrink: 0;"></i>
+                                <div>
+                                    <strong class="small">Serangan Jantung</strong>
+                                    <p class="text-muted small mb-0">Nyeri dada, sesak napas</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-check-circle text-danger me-3 mt-1" style="flex-shrink: 0;"></i>
+                                <div>
+                                    <strong class="small">Stroke</strong>
+                                    <p class="text-muted small mb-0">Mati rasa, kesulitan berbicara</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-check-circle text-danger me-3 mt-1" style="flex-shrink: 0;"></i>
+                                <div>
+                                    <strong class="small">Kecelakaan</strong>
+                                    <p class="text-muted small mb-0">Luka parah, perdarahan</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-check-circle text-danger me-3 mt-1" style="flex-shrink: 0;"></i>
+                                <div>
+                                    <strong class="small">Keracunan</strong>
+                                    <p class="text-muted small mb-0">Menelan benda berbahaya</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-check-circle text-danger me-3 mt-1" style="flex-shrink: 0;"></i>
+                                <div>
+                                    <strong class="small">Persalinan Darurat</strong>
+                                    <p class="text-muted small mb-0">Komplikasi kehamilan</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-check-circle text-danger me-3 mt-1" style="flex-shrink: 0;"></i>
+                                <div>
+                                    <strong class="small">Luka Bakar</strong>
+                                    <p class="text-muted small mb-0">Terkena api atau cairan panas</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="bg-danger text-white p-5 rounded-3">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <h3 class="fw-bold mb-2">BUTUH BANTUAN SEKARANG?</h3>
+                        <p class="mb-0">Jangan ragu untuk menghubungi kami. Tim kami siap membantu dalam situasi apapun.</p>
+                    </div>
+                    <div class="col-lg-4 text-center text-lg-end mt-3 mt-lg-0">
+                        <div class="display-5 fw-bold" style="letter-spacing: 2px;">1-500-123</div>
+                        <p class="small mb-0">Aktif 24/7</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-5 pb-3 mt-auto">
+        <div class="container">
+            <div class="row text-center text-md-start">
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <h5 class="text-uppercase mb-4 fw-bold text-warning">Dokutah</h5>
+                    <p>Melayani dengan sepenuh hati demi kesembuhan dan kenyamanan Anda. Hadir dengan inovasi digital untuk memudahkan akses kesehatan.</p>
+                </div>
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <h5 class="text-uppercase mb-4 fw-bold text-warning">Hubungi Kami</h5>
+                    <p><i class="fas fa-home me-3"></i> Jl. Pemuda No. 8, Ambarawa</p>
+                    <p><i class="fas fa-envelope me-3"></i> info@dokutah.com</p>
+                    <p><i class="fas fa-phone me-3"></i> +62 812 3456 7890</p>
+                </div>
+                <div class="col-md-12 col-lg-4 mb-4 text-center text-lg-start">
+                    <h5 class="text-uppercase mb-4 fw-bold text-warning">Ikuti Kami</h5>
+                    <a href="#" class="text-white me-4 fs-4"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-white me-4 fs-4"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" class="text-white me-4 fs-4"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <hr class="mb-4">
+            <div class="text-center">
+                <p>&copy; 2026 Dokutah. Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -340,6 +340,11 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
 }
 
+/* Map Container */
+.map-container {
+    position: relative;
+}
+
 /* GPS Features */
 .map-controls {
     position: absolute;
@@ -398,6 +403,61 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
 .user-marker {
     background: #ff4444 !important;
+}
+
+/* Nearest Facilities Panel */
+.nearest-facilities-panel {
+    margin-top: 20px;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    border: 1px solid #e9ecef;
+}
+
+.facilities-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.facility-item {
+    padding: 15px 0;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.facility-item:last-child {
+    border-bottom: none;
+}
+
+.facility-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.facility-popup {
+    min-width: 250px;
+}
+
+.facility-popup .services {
+    margin-top: 8px;
+}
+
+.facility-popup .badge {
+    font-size: 0.7rem;
+    margin: 2px;
+}
+
+/* Facility Markers */
+.facility-marker {
+    background: transparent !important;
+    border: none !important;
+}
     animation: user-pulse 1.5s infinite;
 }
 

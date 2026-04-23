@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buat Janji Temu - Dokutah</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="bg-light py-2 d-none d-lg-block">
+        <div class="container d-flex justify-content-between">
+            <div><i class="fas fa-phone-alt me-2 text-primary"></i> Emergency: 1-500-123</div>
+            <div>
+                <a href="#" class="text-decoration-none text-dark me-3"><i class="fas fa-envelope me-1"></i> info@dokutah.com</a>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-hospital me-2"></i>DOKUTAH
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#layanan">Layanan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#dokter">Dokter</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#lokasi">Lokasi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#artikel">Artikel</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+                </ul>
+                <a href="janji-temu.html" class="btn btn-primary ms-3 rounded-pill px-4 fw-bold">Buat Janji Temu</a>
+                <a href="emergency.html" class="btn btn-danger ms-3 rounded-pill px-4 fw-bold">Darurat</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-lg-8 mx-auto">
+                    <h1 class="h2 fw-bold text-center mb-2">Buat Janji Temu dengan Dokter</h1>
+                    <p class="text-center text-muted mb-4">Pesan jadwal konsultasi Anda dengan mudah dan cepat. Pilih dokter, waktu, dan jenis layanan yang Anda butuhkan.</p>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow-sm p-4">
+                        <h4 class="fw-bold mb-4"><i class="fas fa-calendar-check me-2 text-primary"></i>Formulir Janji Temu</h4>
+                        
+                        <form id="appointmentForm">
+                            <div class="mb-3">
+                                <label for="appointmentDoctor" class="form-label fw-bold">Pilih Dokter <span class="text-danger">*</span></label>
+                                <select class="form-select" id="appointmentDoctor" required>
+                                    <option selected disabled>-- Pilih Dokter --</option>
+                                    <option value="1">Dr. Ratna Dewi - Internal Medicine</option>
+                                    <option value="2">Dr. Sarah Larasati - Pediatrics</option>
+                                    <option value="3">Dr. Budi Santoso - Cardiology</option>
+                                    <option value="4">Dr. Andi Wijaya - Neurology</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="appointmentDate" class="form-label fw-bold">Tanggal Janji Temu <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="appointmentDate" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="appointmentTime" class="form-label fw-bold">Waktu Janji Temu <span class="text-danger">*</span></label>
+                                <select class="form-select" id="appointmentTime" required>
+                                    <option selected disabled>-- Pilih Waktu --</option>
+                                    <option value="08:00">08:00 - 08:30</option>
+                                    <option value="08:30">08:30 - 09:00</option>
+                                    <option value="09:00">09:00 - 09:30</option>
+                                    <option value="09:30">09:30 - 10:00</option>
+                                    <option value="14:00">14:00 - 14:30</option>
+                                    <option value="14:30">14:30 - 15:00</option>
+                                    <option value="15:00">15:00 - 15:30</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="appointmentType" class="form-label fw-bold">Jenis Layanan <span class="text-danger">*</span></label>
+                                <select class="form-select" id="appointmentType" required>
+                                    <option selected disabled>-- Pilih Jenis Layanan --</option>
+                                    <option value="general">Konsultasi Umum</option>
+                                    <option value="follow-up">Follow Up</option>
+                                    <option value="emergency">Darurat</option>
+                                    <option value="routine">Check Up Rutin</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="appointmentName" class="form-label fw-bold">Nama Lengkap <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="appointmentName" placeholder="Nama Anda" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="appointmentPhone" class="form-label fw-bold">No. Telepon <span class="text-danger">*</span></label>
+                                <input type="tel" class="form-control" id="appointmentPhone" placeholder="0812xxxxx" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="appointmentEmail" class="form-label fw-bold">Email <span class="text-danger">*</span></label>
+                                <input type="email" class="form-control" id="appointmentEmail" placeholder="email@example.com" required>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="appointmentNotes" class="form-label fw-bold">Catatan Tambahan</label>
+                                <textarea class="form-control" id="appointmentNotes" rows="3" placeholder="Keluhan atau informasi kesehatan tambahan..."></textarea>
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg fw-bold rounded-pill">
+                                    <i class="fas fa-check me-2"></i>Konfirmasi Janji Temu
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-sm p-4 bg-light mb-4">
+                        <h5 class="fw-bold mb-3"><i class="fas fa-info-circle me-2 text-info"></i>Informasi Penting</h5>
+                        <ul class="list-unstyled small">
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Pilih dokter sesuai kebutuhan Anda</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Konfirmasi janji akan dikirim via WhatsApp</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Datang 10 menit lebih awal</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Bawa kartu ID & kartu asuransi</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Pembatalan minimal 24 jam sebelumnya</li>
+                        </ul>
+                    </div>
+
+                    <div class="card border-0 shadow-sm p-4 bg-white">
+                        <h5 class="fw-bold mb-3"><i class="fas fa-phone me-2 text-primary"></i>Hubungi Kami</h5>
+                        <p class="small text-muted mb-2">Ada pertanyaan? Hubungi layanan pelanggan kami:</p>
+                        <p class="mb-2"><i class="fas fa-phone me-2"></i><strong>Telepon:</strong><br><a href="tel:1500123" class="text-decoration-none">1-500-123</a></p>
+                        <p class="mb-0"><i class="fas fa-envelope me-2"></i><strong>Email:</strong><br><a href="mailto:info@dokutah.com" class="text-decoration-none">info@dokutah.com</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark text-white pt-5 pb-3 mt-auto">
+        <div class="container">
+            <div class="row text-center text-md-start">
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <h5 class="text-uppercase mb-4 fw-bold text-warning">Dokutah</h5>
+                    <p>Melayani dengan sepenuh hati demi kesembuhan dan kenyamanan Anda. Hadir dengan inovasi digital untuk memudahkan akses kesehatan.</p>
+                </div>
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <h5 class="text-uppercase mb-4 fw-bold text-warning">Hubungi Kami</h5>
+                    <p><i class="fas fa-home me-3"></i> Jl. Pemuda No. 8, Ambarawa</p>
+                    <p><i class="fas fa-envelope me-3"></i> info@dokutah.com</p>
+                    <p><i class="fas fa-phone me-3"></i> +62 812 3456 7890</p>
+                </div>
+                <div class="col-md-12 col-lg-4 mb-4 text-center text-lg-start">
+                    <h5 class="text-uppercase mb-4 fw-bold text-warning">Ikuti Kami</h5>
+                    <a href="#" class="text-white me-4 fs-4"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-white me-4 fs-4"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" class="text-white me-4 fs-4"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <hr class="mb-4">
+            <div class="text-center">
+                <p>&copy; 2026 Dokutah. Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('appointmentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const doctor = document.getElementById('appointmentDoctor').options[document.getElementById('appointmentDoctor').selectedIndex].text;
+            const date = document.getElementById('appointmentDate').value;
+            const time = document.getElementById('appointmentTime').value;
+            const name = document.getElementById('appointmentName').value;
+            
+            alert(`Terima kasih, ${name}!\n\nJanji temu Anda dengan ${doctor} pada:\nTanggal: ${date}\nWaktu: ${time}\n\nKonfirmasi akan dikirim via WhatsApp.`);
+            this.reset();
+        });
+    </script>
+</body>
+</html>
