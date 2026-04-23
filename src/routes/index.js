@@ -30,5 +30,6 @@ router.use('/artikel',   require('./artikelRoutes'));
 router.use('/jadwal',    require('./jadwalRoutes'));
 router.use('/maps',      require('./mapsRoutes'));
 router.use('/pemesanan', require('./pemesananRoutes'));
+router.use('/chat',      require('./chatRoutes'));
 
 module.exports = router;

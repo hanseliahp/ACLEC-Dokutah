@@ -39,6 +39,7 @@
                     <li class="nav-item"><a class="nav-link" href="#dokter">Dokter</a></li>
                     <li class="nav-item"><a class="nav-link" href="#lokasi">Lokasi</a></li>
                     <li class="nav-item"><a class="nav-link" href="#artikel">Artikel</a></li>
+                    <li class="nav-item"><a class="nav-link" href="chat.html">Chat</a></li>
                     <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
                 </ul>
                 <a href="janji-temu.html" class="btn btn-primary ms-3 rounded-pill px-4 fw-bold">Buat Janji Temu</a>
@@ -302,18 +303,28 @@
             referrerPolicy: 'strict-origin-when-cross-origin'
         }).addTo(map);
 
-// Load faskes from external JSON file (moved from hardcoded)
+// Load faskes from API
 let facilities = [];
 async function loadFacilities() {
   try {
     const response = await fetch('/api/faskes');
-    facilities = await response.json();
-    addFacilityMarkers(); // Re-add markers with loaded data
-    console.log('✅ Faskes loaded from JSON:', facilities.length, 'facilities');
+    const json = await response.json();
+    facilities = (json.data || []).map(f => ({
+      id: f.id_faskes,
+      name: f.nama || f.nama_faskes || 'Tidak dikenal',
+      address: f.alamat || '-', 
+      phone: f.no_telp || '-', 
+      type: f.jenis === 'rs' ? 'hospital' : 'clinic',
+      lat: parseFloat(f.latitude),
+      lng: parseFloat(f.longitude),
+      bpjs: f.terima_bpjs === true,
+    })).filter(f => f.lat && f.lng);
+
+    addFacilityMarkers();
+    console.log('✅ Faskes loaded from API:', facilities.length, 'facilities');
   } catch (error) {
-    console.error('Failed to load faskes.json, using fallback');
-    // Fallback to hardcoded if JSON fails
-    facilities = []; // Add fallback if needed
+    console.error('Failed to load /api/faskes:', error);
+    facilities = [];
   }
 }
 
@@ -403,6 +414,9 @@ async function loadFacilities() {
 
         // Add facility markers to map
         function addFacilityMarkers() {
+            if (!facilities.length) return;
+
+            const bounds = [];
             facilities.forEach(facility => {
                 const iconHtml = getFacilityIcon(facility.type);
                 const marker = L.marker([facility.lat, facility.lng], {
@@ -419,17 +433,19 @@ async function loadFacilities() {
                         <h6 class="fw-bold">${facility.name}</h6>
                         <p class="small mb-1"><i class="fas fa-map-marker-alt me-1"></i>${facility.address}</p>
                         <p class="small mb-1"><i class="fas fa-phone me-1"></i>${facility.phone}</p>
-                        <div class="services small">
-                            <strong>Layanan:</strong><br>
-                            ${facility.services.map(service => `<span class="badge bg-light text-dark me-1">${service}</span>`).join('')}
-                        </div>
+                        <p class="small mb-1">BPJS: ${facility.bpjs ? '✅' : '❌'}</p>
                     </div>
                 `;
 
                 marker.bindPopup(popupContent);
                 marker.addTo(map);
                 facilityMarkers.push(marker);
+                bounds.push([facility.lat, facility.lng]);
             });
+
+            if (bounds.length) {
+                map.fitBounds(bounds, { padding: [40, 40] });
+            }
         }
 
         // Get facility icon based on type

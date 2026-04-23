@@ -18,7 +18,7 @@ const normaliseFaskes = (row, jenis) => ({
   alamat:      row.alamat,
   jenis,
   terima_bpjs: row.terima_bpjs === true,
-  latitude:    parseFloat(row.lattitude || row.latitude) || null,
+  latitude:    parseFloat(row.latitude || row.lattitude) || null,
   longitude:   parseFloat(row.longitude) || null,
   no_telp:     row.no_telp   || null,
   jam_buka:    row.jam_buka  || null,
@@ -30,15 +30,15 @@ const fetchAllFaskes = async (supabase, jenis = null) => {
   if (!jenis || jenis !== 'rs') {
     const { data, error } = await supabase
       .from('fasilitas_kesehatan')
-      .select('id_faskes, nama_faskes, alamat, terima_bpjs, lattitude, longitude, no_telp, jam_buka, jam_tutup')
-      .not('lattitude', 'is', null);
+      .select('id_faskes, nama_faskes, alamat, terima_bpjs, latitude, longitude, no_telp, jam_buka, jam_tutup')
+      .not('latitude', 'is', null);
     if (!error && data) result = [...result, ...data.map(r => normaliseFaskes(r, 'faskes'))];
   }
   if (!jenis || jenis === 'rs') {
     const { data, error } = await supabase
       .from('rumah_sakit')
-      .select('id_rumah_sakit, nama, alamat, terima_bpjs, lattitude, longitude, no_telp, jam_buka, jam_tutup')
-      .not('lattitude', 'is', null);
+      .select('id_rumah_sakit, nama, alamat, terima_bpjs, latitude, longitude, no_telp, jam_buka, jam_tutup')
+      .not('latitude', 'is', null);
     if (!error && data) result = [...result, ...data.map(r => normaliseFaskes(r, 'rs'))];
   }
   return result;
@@ -53,7 +53,7 @@ const getAll = async (req, res, next) => {
     if (!jenis || jenis !== 'rs') {
       const { data, error } = await supabase
         .from('fasilitas_kesehatan')
-        .select('id_faskes, nama_faskes, alamat, terima_bpjs, lattitude, longitude, no_telp, jam_buka, jam_tutup')
+        .select('id_faskes, nama_faskes, alamat, terima_bpjs, latitude, longitude, no_telp, jam_buka, jam_tutup')
         .order('nama_faskes', { ascending: true });
       if (error) throw error;
       result = [...result, ...data.map(r => normaliseFaskes(r, 'faskes'))];
@@ -61,7 +61,7 @@ const getAll = async (req, res, next) => {
     if (!jenis || jenis === 'rs') {
       const { data, error } = await supabase
         .from('rumah_sakit')
-        .select('id_rumah_sakit, nama, alamat, terima_bpjs, lattitude, longitude, no_telp, jam_buka, jam_tutup')
+        .select('id_rumah_sakit, nama, alamat, terima_bpjs, latitude, longitude, no_telp, jam_buka, jam_tutup')
         .order('nama', { ascending: true });
       if (error) throw error;
       result = [...result, ...data.map(r => normaliseFaskes(r, 'rs'))];
@@ -164,16 +164,16 @@ const getByDokterKriteria = async (req, res, next) => {
     if (dokterErr) throw dokterErr;
     if (!dokterData.length) return successResponse(res, `Tidak ada dokter ${kriteria}.`, [], 200, { total: 0 });
 
-    const { data: jadwalData, error: jadwalErr } = await supabase.from('jadwal_dokter').select('jenis_poli_id_poli').in('dokter_id_dokter', dokterData.map(d => d.id_dokter));
+    const { data: jadwalData, error: jadwalErr } = await supabase.from('jadwal_dokter').select('id_poli').in('id_dokter', dokterData.map(d => d.id_dokter));
     if (jadwalErr) throw jadwalErr;
-    const idPoliList = [...new Set(jadwalData.map(j => j.jenis_poli_id_poli))];
+    const idPoliList = [...new Set(jadwalData.map(j => j.id_poli))];
     if (!idPoliList.length) return successResponse(res, `Tidak ada faskes dengan dokter ${kriteria}.`, [], 200, { total: 0 });
 
-    const { data: poliData, error: poliErr } = await supabase.from('jenis_poli').select('fasilitas_kesehatan_id_faskes').in('id_poli', idPoliList).not('fasilitas_kesehatan_id_faskes', 'is', null);
+    const { data: poliData, error: poliErr } = await supabase.from('jenis_poli').select('id_faskes').in('id_poli', idPoliList).not('id_faskes', 'is', null);
     if (poliErr) throw poliErr;
-    const idFaskesList = [...new Set(poliData.map(p => p.fasilitas_kesehatan_id_faskes))];
+    const idFaskesList = [...new Set(poliData.map(p => p.id_faskes))];
 
-    const { data: faskesData, error: faskesErr } = await supabase.from('fasilitas_kesehatan').select('id_faskes, nama_faskes, alamat, terima_bpjs, lattitude, longitude').in('id_faskes', idFaskesList).not('lattitude', 'is', null);
+    const { data: faskesData, error: faskesErr } = await supabase.from('fasilitas_kesehatan').select('id_faskes, nama_faskes, alamat, terima_bpjs, latitude, longitude').in('id_faskes', idFaskesList).not('latitude', 'is', null);
     if (faskesErr) throw faskesErr;
 
     const enriched = enrichWithDistance(faskesData.map(r => normaliseFaskes(r, 'faskes')), userLocation, parseFloat(radius));
