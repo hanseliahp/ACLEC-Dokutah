@@ -1,67 +1,63 @@
-// validator middleware
 'use strict';
 
 /**
  * src/middleware/validator.js
  * Middleware factory untuk validasi input request.
  *
- * Konsep JS yang diterapkan:
- * - Higher-Order Functions: validate() menerima fungsi schema dan mengembalikan middleware
+ * FIX #5: pemesananSchema disesuaikan dengan field yang dipakai
+ *         pemesananController.create:
+ *         { id_user, id_faskes | id_rumah_sakit, jenis_pesanan, tanggal_periksa, catatan }
+ *
+ * Konsep JS:
+ * - Higher-Order Functions: validate() menerima schema dan return middleware
  * - Closure: schema "diingat" oleh middleware yang dikembalikan
- * - Destructuring: dari req.body, req.params, req.query
- * - Arrow functions
  */
 
 const { clientErrorResponse } = require('../utils/responseHelper');
 
 /**
- * validate — HOF yang menerima schema validasi dan mengembalikan Express middleware.
- *
- * @param {Function} schema - fungsi yang menerima data dan mengembalikan { errors }
- * @param {'body'|'params'|'query'} [source='body'] - dari mana data diambil
+ * validate — HOF yang menerima schema dan return Express middleware.
+ * @param {Function} schema - fungsi (data) => string[] errors
+ * @param {'body'|'params'|'query'} [source='body']
  * @returns {Function} Express middleware
- *
- * @example
- * router.post('/pesan', validate(pemesananSchema), pemesananController.create);
  */
 const validate = (schema, source = 'body') => {
-  // Closure: schema "terbungkus" di dalam middleware
   return (req, res, next) => {
     const data   = req[source];
-    const errors = schema(data); // jalankan fungsi schema
-
+    const errors = schema(data);
     if (errors.length > 0) {
       return clientErrorResponse(res, 'Validasi gagal. Periksa input Anda.', 400, errors);
     }
-
     next();
   };
 };
 
 // ─── Schema Definitions ───────────────────────────────────────────────────────
-// Setiap schema adalah fungsi murni (pure function) yang menerima data
-// dan mengembalikan array error string.
 
 /**
- * pemesananSchema — validasi body untuk POST /api/pemesanan
+ * pemesananSchema — validasi body untuk POST /api/pemesanan.
+ *
+ * Field yang diterima pemesananController.create:
+ *   id_user (wajib), id_faskes ATAU id_rumah_sakit (salah satu wajib),
+ *   jenis_pesanan (opsional), tanggal_periksa (opsional), catatan (opsional)
  */
-const pemesananSchema = ({ id_jadwal, nama_pasien } = {}) => {
+const pemesananSchema = ({ id_user, id_faskes, id_rumah_sakit, tanggal_periksa } = {}) => {
   const errors = [];
 
-  if (!id_jadwal)
-    errors.push('id_jadwal wajib diisi.');
-  if (!Number.isInteger(Number(id_jadwal)) || Number(id_jadwal) <= 0)
-    errors.push('id_jadwal harus berupa angka positif.');
-  if (!nama_pasien || typeof nama_pasien !== 'string')
-    errors.push('nama_pasien wajib diisi.');
-  if (nama_pasien && nama_pasien.trim().length < 3)
-    errors.push('nama_pasien minimal 3 karakter.');
+  if (!id_user)
+    errors.push('id_user wajib diisi.');
+
+  if (!id_faskes && !id_rumah_sakit)
+    errors.push('id_faskes atau id_rumah_sakit wajib diisi (minimal salah satu).');
+
+  if (tanggal_periksa && isNaN(Date.parse(tanggal_periksa)))
+    errors.push('tanggal_periksa harus format tanggal yang valid (YYYY-MM-DD).');
 
   return errors;
 };
 
 /**
- * koordinatSchema — validasi query params untuk endpoint `nearby`
+ * koordinatSchema — validasi query params untuk endpoint nearby/maps.
  */
 const koordinatSchema = ({ lat, lng } = {}) => {
   const errors = [];
@@ -77,7 +73,7 @@ const koordinatSchema = ({ lat, lng } = {}) => {
 };
 
 /**
- * artikelSchema — validasi body untuk POST /api/artikel (CMS)
+ * artikelSchema — validasi body untuk POST /api/artikel.
  */
 const artikelSchema = ({ judul, konten, kategori } = {}) => {
   const errors = [];

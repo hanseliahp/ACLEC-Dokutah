@@ -1,24 +1,48 @@
-const express = require('express');
-const router = express.Router();
+'use strict';
 
-// Health check
+/**
+ * src/routes/index.js
+ * Router utama — mount semua sub-router di sini.
+ *
+ * FIX #1: Semua sub-route sekarang dimount dengan benar.
+ * FIX #4: getSupabase() → getSupabaseClient() sesuai ekspor di src/config/supabase.js
+ */
+
+const { Router } = require('express');
+
+const router = Router();
+
+// ─── Health check ─────────────────────────────────────────────────────────────
 router.get('/status', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  res.json({
+    status:    'ok',
+    timestamp: new Date().toISOString(),
+    version:   '1.0.0',
+  });
 });
 
-// Artikel routes (primary for this fix)
-try {
-  const artikelRoutes = require('./artikelRoutes');
-  router.use('/artikel', artikelRoutes);
-} catch (e) {
-  router.get('/artikel', (req, res) => res.status(500).json({ error: 'Artikel routes not configured', details: e.message }));
-}
+// ─── Sub-routes ───────────────────────────────────────────────────────────────
+router.use('/dokter',    require('./dokterRoutes'));
+router.use('/faskes',    require('./faskesRoutes'));
+router.use('/artikel',   require('./artikelRoutes'));
+router.use('/jadwal',    require('./jadwalRoutes'));
+router.use('/maps',      require('./mapsRoutes'));
+router.use('/pemesanan', require('./pemesananRoutes'));
 
-// Placeholder for other routes
-router.use('/dokter', (req, res) => res.status(501).json({ error: 'dokter routes WIP' }));
-router.use('/faskes', (req, res) => res.status(501).json({ error: 'faskes routes WIP' }));
-router.use('/jadwal', (req, res) => res.status(501).json({ error: 'jadwal routes WIP' }));
-router.use('/pemesanan', (req, res) => res.status(501).json({ error: 'pemesanan routes WIP' }));
-router.use('/maps', (req, res) => res.status(501).json({ error: 'maps routes WIP' }));
+// ─── Users (Supabase) ─────────────────────────────────────────────────────────
+router.get('/users', async (req, res) => {
+  try {
+    const { getSupabaseClient } = require('../config/supabase'); // FIX #4
+    const supabase = getSupabaseClient();
+
+    const { data, error } = await supabase.from('users').select('*');
+
+    if (error) return res.status(500).json({ success: false, error: error.message });
+
+    res.json({ success: true, data });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
 
 module.exports = router;
