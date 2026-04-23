@@ -56,9 +56,20 @@
             <div class="row g-4">
                 <div class="col-lg-8">
                     <div class="card border-0 shadow-sm p-4">
-                        <h4 class="fw-bold mb-4"><i class="fas fa-calendar-check me-2 text-primary"></i>Formulir Janji Temu</h4>
+                        <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between mb-4 gap-3">
+                            <div>
+                                <h4 class="fw-bold mb-1"><i class="fas fa-calendar-check me-2 text-primary"></i>Formulir Janji Temu</h4>
+                                <p class="text-muted mb-0">Pilih mode layanan lalu lengkapi data janji temu Anda.</p>
+                            </div>
+                            <div class="btn-group" role="group" aria-label="Mode BPJS Non-BPJS">
+                                <button type="button" class="btn btn-outline-primary appointment-mode-btn active" id="modeBpjsBtn">BPJS</button>
+                                <button type="button" class="btn btn-outline-primary appointment-mode-btn" id="modeNonBpjsBtn">Non-BPJS</button>
+                            </div>
+                        </div>
                         
-                        <form id="appointmentForm">
+                        <form id="appointmentForm" class="appointment-form">
+                            <input type="hidden" id="appointmentMode" value="BPJS">
+                            <div class="alert alert-info py-3" id="modeHelp">Mode BPJS aktif. Pakai nomor BPJS Anda untuk menggunakan layanan BPJS.</div>
                             <div class="mb-3">
                                 <label for="appointmentDoctor" class="form-label fw-bold">Pilih Dokter <span class="text-danger">*</span></label>
                                 <select class="form-select" id="appointmentDoctor" required>
@@ -93,11 +104,27 @@
                                 <label for="appointmentType" class="form-label fw-bold">Jenis Layanan <span class="text-danger">*</span></label>
                                 <select class="form-select" id="appointmentType" required>
                                     <option selected disabled>-- Pilih Jenis Layanan --</option>
-                                    <option value="general">Konsultasi Umum</option>
-                                    <option value="follow-up">Follow Up</option>
-                                    <option value="emergency">Darurat</option>
-                                    <option value="routine">Check Up Rutin</option>
+                                    <option value="konsultasi-bpjs">Konsultasi BPJS</option>
+                                    <option value="rujukan-bpjs">Rujukan BPJS</option>
+                                    <option value="checkup-bpjs">Check Up BPJS</option>
                                 </select>
+                            </div>
+
+                            <div class="mb-3 bpjs-only">
+                                <label for="bpjsNumber" class="form-label fw-bold">No. BPJS <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="bpjsNumber" placeholder="1234 5678 9012 3456">
+                                <div class="form-text">Masukkan nomor BPJS aktif untuk layanan BPJS.</div>
+                            </div>
+
+                            <div class="mb-3 nonbpjs-only d-none">
+                                <label for="paymentMethod" class="form-label fw-bold">Metode Pembayaran <span class="text-danger">*</span></label>
+                                <select class="form-select" id="paymentMethod">
+                                    <option selected disabled>-- Pilih Metode --</option>
+                                    <option value="cash">Tunai</option>
+                                    <option value="credit">Kartu Kredit/Debit</option>
+                                    <option value="transfer">Transfer Bank</option>
+                                </select>
+                                <div class="form-text">Pilih pembayaran untuk layanan Non-BPJS.</div>
                             </div>
 
                             <div class="mb-3">
@@ -181,17 +208,77 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        const modeBpjsBtn = document.getElementById('modeBpjsBtn');
+        const modeNonBpjsBtn = document.getElementById('modeNonBpjsBtn');
+        const appointmentModeInput = document.getElementById('appointmentMode');
+        const bpjsFields = document.querySelectorAll('.bpjs-only');
+        const nonBpjsFields = document.querySelectorAll('.nonbpjs-only');
+        const modeHelp = document.getElementById('modeHelp');
+        const appointmentTypeSelect = document.getElementById('appointmentType');
+
+        const bpjsOptions = `
+            <option selected disabled>-- Pilih Jenis Layanan --</option>
+            <option value="konsultasi-bpjs">Konsultasi BPJS</option>
+            <option value="rujukan-bpjs">Rujukan BPJS</option>
+            <option value="checkup-bpjs">Check Up BPJS</option>
+        `;
+
+        const nonBpjsOptions = `
+            <option selected disabled>-- Pilih Jenis Layanan --</option>
+            <option value="konsultasi-nonbpjs">Konsultasi Mandiri</option>
+            <option value="paket-nonbpjs">Paket Pemeriksaan</option>
+            <option value="spesialis-nonbpjs">Konsultasi Spesialis</option>
+        `;
+
+        function setAppointmentMode(mode) {
+            appointmentModeInput.value = mode;
+            const isBpjs = mode === 'BPJS';
+            modeBpjsBtn.classList.toggle('active', isBpjs);
+            modeNonBpjsBtn.classList.toggle('active', !isBpjs);
+            bpjsFields.forEach(el => el.classList.toggle('d-none', !isBpjs));
+            nonBpjsFields.forEach(el => el.classList.toggle('d-none', isBpjs));
+            appointmentTypeSelect.innerHTML = isBpjs ? bpjsOptions : nonBpjsOptions;
+            modeHelp.textContent = isBpjs
+                ? 'Mode BPJS aktif. Pastikan BPJS Anda aktif dan bawa kartu BPJS saat datang.'
+                : 'Mode Non-BPJS aktif. Pilih metode pembayaran yang tersedia dan nikmati layanan mandiri.';
+        }
+
+        modeBpjsBtn.addEventListener('click', () => setAppointmentMode('BPJS'));
+        modeNonBpjsBtn.addEventListener('click', () => setAppointmentMode('NON-BPJS'));
+
         document.getElementById('appointmentForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
+            const mode = appointmentModeInput.value;
             const doctor = document.getElementById('appointmentDoctor').options[document.getElementById('appointmentDoctor').selectedIndex].text;
             const date = document.getElementById('appointmentDate').value;
             const time = document.getElementById('appointmentTime').value;
+            const type = document.getElementById('appointmentType').options[document.getElementById('appointmentType').selectedIndex].text;
             const name = document.getElementById('appointmentName').value;
-            
-            alert(`Terima kasih, ${name}!\n\nJanji temu Anda dengan ${doctor} pada:\nTanggal: ${date}\nWaktu: ${time}\n\nKonfirmasi akan dikirim via WhatsApp.`);
+            const phone = document.getElementById('appointmentPhone').value;
+            const email = document.getElementById('appointmentEmail').value;
+            const notes = document.getElementById('appointmentNotes').value || '-';
+            const bpjsNumber = document.getElementById('bpjsNumber').value;
+            const paymentMethod = document.getElementById('paymentMethod').value;
+
+            if (mode === 'BPJS' && !bpjsNumber) {
+                return alert('Silakan masukkan nomor BPJS Anda.');
+            }
+            if (mode === 'NON-BPJS' && !paymentMethod) {
+                return alert('Silakan pilih metode pembayaran untuk layanan Non-BPJS.');
+            }
+
+            const modeDetail = mode === 'BPJS'
+                ? `BPJS (${bpjsNumber})`
+                : `Non-BPJS (${paymentMethod})`;
+
+            alert(`Terima kasih, ${name}!\n\nJanji temu Anda berhasil dibuat dengan detail berikut:\nMode: ${modeDetail}\nDokter: ${doctor}\nJenis Layanan: ${type}\nTanggal: ${date}\nWaktu: ${time}\n\nTim Dokutah akan menghubungi Anda untuk konfirmasi segera.`);
+
             this.reset();
+            setAppointmentMode('BPJS');
         });
+
+        setAppointmentMode('BPJS');
     </script>
 </body>
 </html>

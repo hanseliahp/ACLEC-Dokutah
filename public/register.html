@@ -3,146 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar - Dokutah</title>
+    <title>Daftar — Dokutah</title>
+
+    <!-- Bootstrap & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="d-flex align-items-center min-vh-100 bg-light">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-7 col-lg-6">
-                <div class="card p-5 shadow-lg border-0">
-                    <div class="text-center mb-4">
-                        <a href="index.html" class="text-decoration-none">
-                            <h2 class="fw-bold text-primary mb-0"><i class="fas fa-hospital me-2"></i>DOKUTAH</h2>
-                        </a>
-                        <p class="text-muted mb-0 mt-2">Buat akun untuk memesan janji temu dan mengelola layanan kesehatan Anda.</p>
-                    </div>
 
-                    <form id="registerForm">
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label for="registerName" class="form-label fw-bold">Nama Lengkap</label>
-                                <input type="text" class="form-control" id="registerName" placeholder="Nama Anda" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="registerPhone" class="form-label fw-bold">No. Telepon</label>
-                                <input type="tel" class="form-control" id="registerPhone" placeholder="0812xxxxxxx" required>
-                            </div>
-                        </div>
+<body class="login-page register-page">
 
-                        <div class="mb-3 mt-3">
-                            <label for="registerEmail" class="form-label fw-bold">Email</label>
-                            <input type="email" class="form-control" id="registerEmail" placeholder="alamat@mail.com" required>
-                        </div>
+    <!-- TOP BAR -->
+    <div class="login-emergency-bar">
+        <span><i class="fas fa-phone me-1"></i> Emergency: 1-500-123</span>
+        <span>|</span>
+        <span><i class="fas fa-envelope me-1"></i> info@dokutah.com</span>
+    </div>
 
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label for="registerPassword" class="form-label fw-bold">Kata Sandi</label>
-                                <input type="password" class="form-control" id="registerPassword" placeholder="Minimal 8 karakter" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="registerConfirm" class="form-label fw-bold">Konfirmasi Kata Sandi</label>
-                                <input type="password" class="form-control" id="registerConfirm" placeholder="Ketik ulang kata sandi" required>
-                            </div>
-                        </div>
+    <!-- LEFT PANEL -->
+    <div class="login-left-panel">
 
-                        <div class="mb-3 mt-3">
-                            <label for="registerAge" class="form-label fw-bold">Usia</label>
-                            <input type="number" class="form-control" id="registerAge" placeholder="Umur Anda" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="registerGender" class="form-label fw-bold">Jenis Kelamin</label>
-                            <select class="form-select" id="registerGender" required>
-                                <option selected disabled>-- Pilih Jenis Kelamin --</option>
-                                <option value="male">Laki-laki</option>
-                                <option value="female">Perempuan</option>
-                            </select>
-                        </div>
-
-                        <div class="form-check mb-3 mt-4">
-                            <input class="form-check-input" type="checkbox" id="agreeTerms" required>
-                            <label class="form-check-label small" for="agreeTerms">
-                                Saya setuju dengan <a href="#" class="text-decoration-none">Syarat & Ketentuan</a> dan <a href="#" class="text-decoration-none">Kebijakan Privasi</a>
-                            </label>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary w-100 fw-bold py-2 mt-4">
-                            <i class="fas fa-user-plus me-2"></i>Daftar Sekarang
-                        </button>
-
-                        <p class="text-center text-muted small mt-3">
-                            Sudah punya akun? <a href="login.html" class="text-decoration-none fw-bold">Masuk di sini</a>
-                        </p>
-                    </form>
-
-                    <hr class="my-4">
-
-                    <div class="row g-2">
-                        <div class="col-6">
-                            <button class="btn btn-outline-secondary w-100 py-2">
-                                <i class="fab fa-google me-2"></i>Google
-                            </button>
-                        </div>
-                        <div class="col-6">
-                            <button class="btn btn-outline-secondary w-100 py-2">
-                                <i class="fab fa-facebook-f me-2"></i>Facebook
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="alert alert-info mt-4 small" role="alert">
-                    <i class="fas fa-info-circle me-2"></i>
-                    <strong>Keamanan Data:</strong> Kami menggunakan enkripsi tingkat bank untuk melindungi informasi pribadi Anda.
-                </div>
+        <div class="login-brand">
+            <div class="login-brand-icon">
+                <i class="fas fa-hospital-alt"></i>
             </div>
+            <span class="login-brand-text">DOKUTAH</span>
+        </div>
+
+        <div class="login-headline">
+            <h1>Bergabung dengan<br><span>Dokutah</span></h1>
+            <p>Platform layanan kesehatan digital untuk masa depan Anda.</p>
+        </div>
+
+        <ul class="login-feature-list">
+            <li><div class="lf-check"><i class="fas fa-check"></i></div>Akses dokter terbaik</li>
+            <li><div class="lf-check"><i class="fas fa-check"></i></div>Booking cepat & mudah</li>
+            <li><div class="lf-check"><i class="fas fa-check"></i></div>Data aman & terenkripsi</li>
+        </ul>
+
+        <div class="login-trust-badges">
+            <div class="login-badge-pill">Aman & Terenkripsi</div>
+            <div class="login-badge-pill">24/7 Aktif</div>
+        </div>
+
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="login-right-panel">
+
+        <div class="login-box register-box">
+
+            <div class="login-header">
+                <div class="login-eyebrow">Daftar</div>
+                <h2>Buat Akun Baru</h2>
+                <p>Sudah punya akun? 
+                    <a href="login.html" class="register-link">Masuk</a>
+                </p>
+            </div>
+
+            <form id="registerForm">
+
+                <div class="login-form-group">
+                    <label class="login-label">Nama Lengkap</label>
+                    <input type="text" class="login-input" id="registerName" required>
+                </div>
+
+                <div class="login-form-group">
+                    <label class="login-label">Email</label>
+                    <input type="email" class="login-input" id="registerEmail" required>
+                </div>
+
+                <div class="login-form-group">
+                    <label class="login-label">Password</label>
+                    <input type="password" class="login-input" id="registerPassword" required>
+                </div>
+
+                <div class="login-form-group">
+                    <label class="login-label">Konfirmasi Password</label>
+                    <input type="password" class="login-input" id="registerConfirm" required>
+                </div>
+
+                <div class="login-options">
+                    <label class="login-check">
+                        <input type="checkbox" required>
+                        <span>Saya setuju dengan syarat & ketentuan</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="login-btn-submit">
+                    <i class="fas fa-user-plus"></i>
+                    Daftar Sekarang
+                </button>
+
+            </form>
+
+            <div class="login-divider"><span>atau</span></div>
+
+            <a href="login.html" class="login-btn-register">
+                <i class="fas fa-arrow-left"></i>
+                Kembali ke Login
+            </a>
+
+            <a href="index.html" class="login-back-link">
+                <i class="fas fa-arrow-left"></i>
+                Kembali ke Beranda
+            </a>
+
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const password = document.getElementById('registerPassword').value;
-            const confirm = document.getElementById('registerConfirm').value;
-            
-            if (password !== confirm) {
-                alert('Kata sandi tidak cocok!');
-                return;
-            }
-            
-            if (password.length < 8) {
-                alert('Kata sandi minimal 8 karakter!');
-                return;
-            }
-            
-            alert('Pendaftaran berhasil! Silakan login dengan akun Anda.');
-            window.location.href = 'login.html';
-        });
-    </script>
-</body>
-</html>
-                        <button type="submit" class="btn btn-primary w-100 py-2 mt-4">Daftar</button>
-                    </form>
+<script>
+document.getElementById('registerForm').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-                    <div class="text-center mt-4">
-                        <p class="mb-1 text-secondary">Sudah punya akun?</p>
-                        <a href="login.html" class="btn btn-outline-primary w-100">Masuk Sekarang</a>
-                    </div>
+    const password = document.getElementById('registerPassword').value;
+    const confirm = document.getElementById('registerConfirm').value;
 
-                    <div class="text-center mt-4">
-                        <a href="index.html" class="text-decoration-none text-secondary"><i class="fas fa-arrow-left me-2"></i>Kembali ke Beranda</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    if (password !== confirm) {
+        alert('Password tidak cocok!');
+        return;
+    }
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    if (password.length < 8) {
+        alert('Minimal 8 karakter!');
+        return;
+    }
+
+    alert('Registrasi berhasil!');
+    window.location.href = 'login.html';
+});
+</script>
+
 </body>
 </html>
