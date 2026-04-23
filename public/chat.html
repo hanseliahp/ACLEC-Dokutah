@@ -86,7 +86,7 @@
                 <h5>Chat Demo</h5>
                 <div class="doctor-card p-3 border rounded mb-2" onclick="startDemoChat()">
                     <div class="d-flex align-items-center">
-                        <img src="https://via.placeholder.com/50x50?text=AI" 
+                        <img src="https://img.freepik.com/free-vector/graident-ai-robot-vectorart_78370-4114.jpg?semt=ais_hybrid&w=740&q=80"
                              class="rounded-circle me-3" width="50" height="50" alt="Demo Doctor">
                         <div>
                             <h6 class="mb-0">Dr. Demo AI</h6>
@@ -106,7 +106,12 @@
                 <div id="chat-area" class="chat-container border rounded" style="display: none;">
                     <div class="p-3 bg-primary text-white d-flex justify-content-between align-items-center">
                         <h5 id="chat-title">Chat dengan Dokter</h5>
-                        <small id="demo-badge" class="badge bg-warning text-dark" style="display: none;">DEMO MODE</small>
+                        <div>
+                            <small id="demo-badge" class="badge bg-warning text-dark me-2" style="display: none;">DEMO MODE</small>
+                            <button id="clear-demo-btn" class="btn btn-sm btn-outline-light" style="display: none;" onclick="clearDemoChat()">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
                     </div>
                     <div id="chat-messages" class="chat-messages">
                         <!-- Messages will be loaded here -->
@@ -201,41 +206,61 @@
             currentSessionId = 'demo-session-001';
             document.getElementById('chat-title').textContent = 'Chat dengan Dr. Demo AI';
             document.getElementById('demo-badge').style.display = 'inline-block';
+            document.getElementById('clear-demo-btn').style.display = 'inline-block';
             document.getElementById('chat-area').style.display = 'flex';
             document.getElementById('no-chat').style.display = 'none';
-            loadDemoMessages();
-            subscribeToDemoMessages();
+            loadLocalDemoMessages();
         }
 
-        // Load demo messages
-        async function loadDemoMessages() {
-            try {
-                const response = await fetch('/api/chat/demo/messages');
-                if (response.ok) {
-                    const data = await response.json();
-                    displayMessages(data.data);
-                }
-            } catch (error) {
-                console.error('Error loading demo messages:', error);
+        // Clear demo chat
+        function clearDemoChat() {
+            if (confirm('Apakah Anda yakin ingin menghapus semua pesan demo?')) {
+                localStorage.removeItem('demoMessages');
+                loadLocalDemoMessages();
             }
         }
 
-        // Subscribe to demo messages (polling since no auth)
-        function subscribeToDemoMessages() {
-            // Simple polling for demo
-            setInterval(async () => {
-                if (isDemoMode && currentSessionId) {
-                    try {
-                        const response = await fetch('/api/chat/demo/messages');
-                        if (response.ok) {
-                            const data = await response.json();
-                            displayMessages(data.data);
-                        }
-                    } catch (error) {
-                        console.error('Error polling demo messages:', error);
+        // Load demo messages from localStorage
+        function loadLocalDemoMessages() {
+            let messages = JSON.parse(localStorage.getItem('demoMessages') || '[]');
+
+            // Add welcome message if no messages exist
+            if (messages.length === 0) {
+                messages = [
+                    {
+                        id: 1,
+                        session_id: 'demo-session-001',
+                        sender_type: 'doctor',
+                        sender_id: 'demo-doctor',
+                        message: 'Halo! Selamat datang di Chat Demo Dokutah. Saya Dr. Demo AI, asisten kesehatan virtual. Silakan ajukan pertanyaan Anda seputar kesehatan!',
+                        created_at: new Date().toISOString()
                     }
-                }
-            }, 2000); // Poll every 2 seconds
+                ];
+                saveLocalDemoMessages(messages);
+            }
+
+            displayMessages(messages);
+        }
+
+        // Save demo messages to localStorage
+        function saveLocalDemoMessages(messages) {
+            localStorage.setItem('demoMessages', JSON.stringify(messages));
+        }
+
+        // Add demo message to local storage
+        function addLocalDemoMessage(message, senderType = 'user') {
+            const messages = JSON.parse(localStorage.getItem('demoMessages') || '[]');
+            const newMessage = {
+                id: Date.now(),
+                session_id: 'demo-session-001',
+                sender_type: senderType,
+                sender_id: senderType === 'user' ? 'demo-user' : 'demo-doctor',
+                message: message,
+                created_at: new Date().toISOString()
+            };
+            messages.push(newMessage);
+            saveLocalDemoMessages(messages);
+            return messages;
         }
 
         // Display chat sessions
@@ -321,6 +346,7 @@
             currentSessionId = session.id;
             document.getElementById('chat-title').textContent = `Chat dengan ${session.dokter?.nama_dokter || 'Dokter'}`;
             document.getElementById('demo-badge').style.display = 'none';
+            document.getElementById('clear-demo-btn').style.display = 'none';
             document.getElementById('chat-area').style.display = 'flex';
             document.getElementById('no-chat').style.display = 'none';
             loadMessages(session.id);
@@ -400,30 +426,45 @@
             if (!message || !currentSessionId) return;
 
             try {
-                let response;
                 if (isDemoMode) {
-                    response = await fetch('/api/chat/demo/messages', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ message })
-                    });
+                    // Handle demo mode with localStorage
+                    const messages = addLocalDemoMessage(message, 'user');
+                    displayMessages(messages);
+                    input.value = '';
+
+                    // Generate AI response after delay
+                    setTimeout(() => {
+                        const responses = [
+                            'Halo! Saya Dr. Demo AI. Bagaimana saya bisa membantu Anda hari ini?',
+                            'Baik, saya mengerti keluhan Anda. Apakah Anda memiliki gejala lain?',
+                            'Untuk kesehatan yang optimal, disarankan makan teratur dan olahraga rutin.',
+                            'Jika gejala memburuk, segera konsultasi ke dokter terdekat.',
+                            'Apakah Anda sudah minum obat sesuai anjuran?',
+                            'Istirahat yang cukup sangat penting untuk pemulihan.',
+                            'Apakah ada riwayat penyakit keluarga yang perlu saya ketahui?',
+                            'Saya merekomendasikan Anda untuk minum air putih yang cukup setiap hari.',
+                            'Olahraga teratur dapat meningkatkan sistem kekebalan tubuh.',
+                            'Pastikan Anda mendapatkan nutrisi yang seimbang dari makanan sehari-hari.'
+                        ];
+                        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                        const messages = addLocalDemoMessage(randomResponse, 'doctor');
+                        displayMessages(messages);
+                    }, 1000 + Math.random() * 2000);
+
                 } else {
-                    response = await fetch('/api/chat/messages', {
+                    // Handle authenticated mode
+                    const response = await fetch('/api/chat/messages', {
                         method: 'POST',
                         headers: getAuthHeaders(),
                         body: JSON.stringify({ session_id: currentSessionId, message })
                     });
-                }
 
-                if (response.ok) {
-                    input.value = '';
-                    if (isDemoMode) {
-                        loadDemoMessages(); // Refresh messages immediately for demo
+                    if (response.ok) {
+                        input.value = '';
+                        loadMessages(currentSessionId);
                     } else {
-                        loadMessages(currentSessionId); // Refresh messages
+                        alert('Gagal mengirim pesan');
                     }
-                } else {
-                    alert('Gagal mengirim pesan');
                 }
             } catch (error) {
                 console.error('Error sending message:', error);

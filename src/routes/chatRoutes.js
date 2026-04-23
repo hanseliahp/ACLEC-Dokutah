@@ -20,7 +20,12 @@ const {
 
 const { authenticate } = require('../middleware/auth');
 
-// All routes require authentication
+// Demo chat routes (no auth required) - BEFORE auth middleware
+router.get('/demo/sessions', getDemoChatSession);
+router.get('/demo/messages', getDemoMessages);
+router.post('/demo/messages', sendDemoMessage);
+
+// All routes below require authentication
 router.use(authenticate);
 
 // Get all chat sessions for user
@@ -37,11 +42,6 @@ router.post('/messages', sendMessage);
 
 // Close chat session
 router.put('/sessions/:session_id/close', closeChatSession);
-
-// Demo chat routes (no auth required)
-router.get('/demo/sessions', getDemoChatSession);
-router.get('/demo/messages', getDemoMessages);
-router.post('/demo/messages', sendDemoMessage);
 
 module.exports = router;
 
