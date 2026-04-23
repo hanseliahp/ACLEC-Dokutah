@@ -1,36 +1,24 @@
 const express = require('express');
 const router = express.Router();
 
-// Health check endpoint
+// Health check
 router.get('/status', (req, res) => {
-  res.json({
-    status: 'ok',
-    timestamp: new Date().toISOString(),
-  });
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Users endpoint (from original server.js)
-router.get('/users', async (req, res) => {
-  try {
-    const { getSupabase } = require('../config/supabase');
-    const supabase = getSupabase();
+// Artikel routes (primary for this fix)
+try {
+  const artikelRoutes = require('./artikelRoutes');
+  router.use('/artikel', artikelRoutes);
+} catch (e) {
+  router.get('/artikel', (req, res) => res.status(500).json({ error: 'Artikel routes not configured', details: e.message }));
+}
 
-    if (!supabase) {
-      return res.status(503).json({ error: 'Supabase not connected' });
-    }
-
-    const { data, error } = await supabase
-      .from('users')
-      .select('*');
-
-    if (error) {
-      return res.status(500).json({ error: error.message });
-    }
-
-    res.json(data);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+// Placeholder for other routes
+router.use('/dokter', (req, res) => res.status(501).json({ error: 'dokter routes WIP' }));
+router.use('/faskes', (req, res) => res.status(501).json({ error: 'faskes routes WIP' }));
+router.use('/jadwal', (req, res) => res.status(501).json({ error: 'jadwal routes WIP' }));
+router.use('/pemesanan', (req, res) => res.status(501).json({ error: 'pemesanan routes WIP' }));
+router.use('/maps', (req, res) => res.status(501).json({ error: 'maps routes WIP' }));
 
 module.exports = router;

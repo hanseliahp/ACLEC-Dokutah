@@ -33,11 +33,24 @@ const getAll = async (req, res, next) => {
     if (search)   q = q.or(`judul.ilike.%${search}%,ringkasan.ilike.%${search}%`);
 
     const { data, error, count } = await q;
-    if (error) throw error;
+    
+    // Graceful handling for table issues
+    if (error) {
+      if (error.code === 'PGRST116' || error.message?.includes('relation')) {
+        return res.status(503).json({
+          error: 'Artikel table not ready. Create table in Supabase.',
+          code: error.code,
+          details: error.message,
+          data: [],
+          meta: { total: 0 }
+        });
+      }
+      throw error;
+    }
 
     successResponse(res, 'Artikel berhasil diambil.', data, 200, {
       total: count, page: pageInt, limit: limitInt,
-      totalPage: Math.ceil(count / limitInt),
+      totalPage: Math.ceil((count || 0) / limitInt),
     });
   } catch (err) { next(err); }
 };
@@ -54,7 +67,22 @@ const getBySlug = async (req, res, next) => {
       .eq('aktif', true)
       .single();
 
-    if (error || !data) return notFoundResponse(res, 'Artikel');
+    // Graceful handling for table issues
+    if (error) {
+      if (error.code === 'PGRST116' || error.message?.includes('relation')) {
+        return res.status(503).json({
+          error: 'Artikel table not ready. Create table in Supabase.',
+          code: error.code,
+          details: error.message
+        });
+      }
+      if (error.code === 'PGRST302') {
+        return notFoundResponse(res, 'Artikel');
+      }
+      throw error;
+    }
+
+    if (!data) return notFoundResponse(res, 'Artikel');
     successResponse(res, 'Artikel berhasil diambil.', data);
   } catch (err) { next(err); }
 };
@@ -65,7 +93,17 @@ const getKategori = async (req, res, next) => {
     const { data, error } = await supabase
       .from('artikel').select('kategori').eq('aktif', true);
 
-    if (error) throw error;
+    // Graceful handling for table issues
+    if (error) {
+      if (error.code === 'PGRST116' || error.message?.includes('relation')) {
+        return res.status(503).json({
+          error: 'Artikel table not ready. No categories available.',
+          code: error.code,
+          categories: []
+        });
+      }
+      throw error;
+    }
 
     const hitungan = data.reduce((acc, { kategori }) => {
       acc[kategori] = (acc[kategori] || 0) + 1;
@@ -108,7 +146,18 @@ const create = async (req, res, next) => {
       .select('id_artikel, judul, kategori, slug, created_at')
       .single();
 
-    if (error) throw error;
+    // Graceful handling for table issues
+    if (error) {
+      if (error.code === 'PGRST116' || error.message?.includes('relation')) {
+        return res.status(503).json({
+          error: 'Artikel table not ready. Create table first.',
+          code: error.code,
+          details: error.message
+        });
+      }
+      throw error;
+    }
+    
     successResponse(res, 'Artikel berhasil dibuat.', data, 201);
   } catch (err) { next(err); }
 };
