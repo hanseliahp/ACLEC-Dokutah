@@ -1,19 +1,31 @@
 import 'dotenv/config'
 import express from 'express'
-import { supabase } from './src/lib/supabaseClient.js'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
 const app = express()
 
-app.get('/users', async (req, res) => {
-  const { data, error } = await supabase
-    .from('users')
-    .select('*')
+// Fix __dirname (ES module)
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
-  if (error) return res.status(500).json(error)
+// Serve static files
+app.use(express.static(path.join(__dirname, 'public')))
 
-  res.json(data)
+// Route for homepage
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'))
 })
 
-app.listen(3000, () => {
-  console.log('Server running on port 3000')
+// Simple API route for testing
+app.get('/api/status', (req, res) => {
+  res.json({ status: 'Server is running!', time: new Date().toLocaleString() })
+})
+
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`)
+})
+app.get('/', (req, res) => {
+  res.send('Server is working 🚀')
 })
