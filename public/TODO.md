@@ -1,1 +1,0 @@
-- [x] Step 1: Edit style.css - Remove all dark mode CSS ([data-theme=\"dark\"], @media prefers-color-scheme: dark, theme-toggle styles)
