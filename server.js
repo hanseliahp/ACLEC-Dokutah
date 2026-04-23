@@ -1,5 +1,6 @@
+import 'dotenv/config'
 import express from 'express'
-import { supabase } from './lib/supabaseClient.js'
+import { supabase } from './src/lib/supabaseClient.js'
 
 const app = express()
 

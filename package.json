@@ -1,5 +1,14 @@
 {
+  "name": "aclec-dokutah",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
   "dependencies": {
-    "@supabase/supabase-js": "^2.104.0"
+    "@supabase/supabase-js": "^2.104.0",
+    "dotenv": "^16.3.1",
+    "express": "^5.2.1"
   }
 }
