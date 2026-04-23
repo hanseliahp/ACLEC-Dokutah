@@ -458,6 +458,8 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     background: transparent !important;
     border: none !important;
 }
+
+.user-marker {
     animation: user-pulse 1.5s infinite;
 }
 
@@ -465,11 +467,6 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     0%, 100% { box-shadow: 0 0 0 0 rgba(255,68,68,0.7); }
     50% { box-shadow: 0 0 0 12px rgba(255,68,68,0); }
 }
-
-
-/* ============================================
-   LOGIN PAGE STYLES — tambahan, bukan milik Dava
-   ============================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
