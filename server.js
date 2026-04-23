@@ -43,17 +43,20 @@ const startServer = async () => {
   try {
     await connectSupabase();
   } catch (err) {
-    // Don't exit on API key or connection errors - tables might not exist yet
-    console.warn('[SERVER] Supabase warning:', err.message);
-    console.warn('[SERVER] Server will continue without Supabase, but API endpoints may fail.');
+    // Hanya exit jika credentials benar-benar salah (bukan schema belum siap)
+    const isFatal = !err.code || err.message?.includes('Missing Supabase');
+    if (isFatal) {
+      console.error('[SERVER] Fatal: Gagal koneksi Supabase:', err.message);
+      process.exit(1);
+    }
+    console.warn('[SERVER] Warning: Supabase partial, server tetap jalan.');
   }
 
   server.listen(PORT, () => {
     console.log(`\n✅ Server running at http://localhost:${PORT}`);
     console.log(`📁 Static files from /public`);
     console.log(`🌐 APIs at http://localhost:${PORT}/api`);
-    console.log(`📝 Article Editor: http://localhost:${PORT}/article-editor.html`);
-    console.log(`🏠 Homepage: http://localhost:${PORT}\n`);
+    console.log(`🔗 Open dokter.html: http://localhost:${PORT}/dokter.html\n`);
   });
 };
 
